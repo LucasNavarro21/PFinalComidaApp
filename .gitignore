@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-lock.yaml
+
+# TypeScript
+dist/
+build/
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+debug.log
+
+# IDEs / Editores
+.vscode/
+.idea/
+.DS_Store
+
+# Entorno
+.env
+.env.*
