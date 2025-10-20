@@ -1,16 +1,22 @@
+import "reflect-metadata";
+import { AppDataSource } from "../app/infra/db/data-source";
 import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import routes from "./routes/index.js";
 
-const app = express();
+export async function createServer() {
+  const app = express();
+  app.use(express.json());
 
-// Middlewares
-app.use(cors());
-app.use(morgan("dev"));
-app.use(express.json());
+  await AppDataSource.initialize()
+    .then(() => {
+      console.log("Conexion lograda con PostgreSql");
+    })
+    .catch((err) => {
+      console.error("Error de conexion a la bd:", err);
+    });
 
-// Rutas
-app.use("/api", routes);
+  app.get("/", (req, res) => {
+    res.send("Servidor funcionando correctamente");
+  });
 
-export default app;
+  return app;
+}

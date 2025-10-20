@@ -1,7 +1,10 @@
-import app from "./app/server.js";
+import "reflect-metadata";
+import { createServer } from "./app/server.js";
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+createServer().then((app) => {
+  app.listen(PORT, () => {
+    console.log(` Servidor corriendo en http://localhost:${PORT}`);
+  });
 });
