@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert } from "typeorm";
 import { Order } from "./Order.entity.js";
+import bcrypt from "bcrypt";
 
 export enum UserRole {
   CUSTOMER = "CUSTOMER",
@@ -35,4 +36,5 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders!: Order[];
+
 }
