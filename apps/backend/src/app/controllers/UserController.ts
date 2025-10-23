@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { AppDataSource } from "../infra/db/data-source";
 import { User } from "../infra/db/entities/User.entity.js";
+import { generarToken } from "../utils/jwt.js";
 
 export class UserController {
   private userRepository = AppDataSource.getRepository(User);
@@ -16,7 +17,6 @@ export class UserController {
     }
   }
 
-  // 🟢 Crear un nuevo usuario
 async create(req: Request, res: Response) {
   try {
     const { name, email, password } = req.body;
@@ -28,7 +28,6 @@ async create(req: Request, res: Response) {
     if (existing)
       return res.status(400).json({ message: "El usuario ya existe" });
 
-    // 🔒 Hashear la contraseña antes de guardarla
     const hashedPassword = await bcrypt.hash(password, 10);
     
     console.log("Hashed password:", hashedPassword);
@@ -61,8 +60,8 @@ async create(req: Request, res: Response) {
       if (!valid)
         return res.status(401).json({ message: "Contraseña incorrecta" });
 
-      return res.json({ message: "Inicio de sesión exitoso" });
-    } catch (error) {
+      const token = generarToken({ id: user.id, email: user.email, role: user.role });
+      return res.json({ message: "Inicio de sesión exitoso", token });    } catch (error) {
       console.error("Error en login:", error);
       return res.status(500).json({ message: "Error interno del servidor" });
     }

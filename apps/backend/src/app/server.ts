@@ -2,6 +2,10 @@ import "reflect-metadata";
 import { AppDataSource } from "../app/infra/db/data-source";
 import express from "express";
 import userRoutes from "./routes/UserRoutes";
+import productRoutes from "./routes/ProductRoutes";
+import restaurantRoutes from "./routes/RestaurantRoutes.js";
+import orderRoutes from "./routes/OrderRoutes.js";
+import orderItemRoutes from "./routes/OrderItemRoutes";
 
 export async function createServer() {
   const app = express();
@@ -18,6 +22,10 @@ export async function createServer() {
     });
 
       app.use("/users", userRoutes);
+      app.use("/products", productRoutes);
+      app.use("/restaurants", restaurantRoutes);
+      app.use("/orders", orderRoutes);
+      app.use("/order-items", orderItemRoutes);
 
   app.get("/", (req, res) => {
     res.send("Servidor funcionando correctamente");

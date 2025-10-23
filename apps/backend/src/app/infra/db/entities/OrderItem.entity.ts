@@ -1,16 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { Order } from "./Order.entity.js";
+import { Product } from "./Product.entity.js";
 
 @Entity({ name: "order_items" })
 export class OrderItem {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
-
-  @Column({ type: "uuid" })
-  orderId!: string;
-
-  @Column({ type: "varchar", nullable: true })
-  product?: string;
 
   @Column({ type: "int" })
   quantity!: number;
@@ -18,6 +13,9 @@ export class OrderItem {
   @Column({ type: "float" })
   subtotal!: number;
 
-  @ManyToOne(() => Order, (order) => order.items)
+  @ManyToOne(() => Order, (order) => order.items, { onDelete: "CASCADE" })
   order!: Order;
+
+  @ManyToOne(() => Product, { eager: true })
+  product!: Product;
 }

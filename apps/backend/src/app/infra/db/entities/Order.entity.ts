@@ -18,11 +18,14 @@ export class Order {
   restaurantId!: string;
 
   @ManyToOne(() => Restaurant, (restaurant) => restaurant.orders)
-  restaurant!: Restaurant;  
+  restaurant!: Restaurant;
+
+  @Column({ type: "float", default: 0 })
+  total!: number;
 
   @Column({ type: "varchar", default: "CREATED" })
   status!: string;
 
-  @OneToMany(() => OrderItem, (item) => item.order)
+  @OneToMany(() => OrderItem, (item) => item.order, { cascade: true })
   items!: OrderItem[];
 }
