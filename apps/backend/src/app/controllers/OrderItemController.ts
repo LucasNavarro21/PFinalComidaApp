@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../infra/db/data-source";
-import { OrderItem } from "../infra/db/entities/OrderItem.entity.js";
-import { Product } from "../infra/db/entities/Product.entity.js";
-import { Order } from "../infra/db/entities/Order.entity.js";
+import { OrderItemEntity } from "../infra/db/entities/OrderItem.entity.js";
+import { ProductEntity } from "../infra/db/entities/ProductEntity.js";
+import { OrderEntity } from "../infra/db/entities/OrderEntity.js";
 
 export class OrderItemController {
-  private orderItemRepository = AppDataSource.getRepository(OrderItem);
-  private productRepository = AppDataSource.getRepository(Product);
-  private orderRepository = AppDataSource.getRepository(Order);
+  private orderItemRepository = AppDataSource.getRepository(OrderItemEntity);
+  private productRepository = AppDataSource.getRepository(ProductEntity);
+  private orderRepository = AppDataSource.getRepository(OrderEntity);
 
   async create(req: Request, res: Response) {
     try {

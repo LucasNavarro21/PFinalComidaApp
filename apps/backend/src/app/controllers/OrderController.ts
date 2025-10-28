@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../infra/db/data-source";
-import { Order } from "../infra/db/entities/Order.entity";
-import { OrderItem } from "../infra/db/entities/OrderItem.entity";
-import { Product } from "../infra/db/entities/Product.entity";
-import { User } from "../infra/db/entities/User.entity";
-import { Restaurant } from "../infra/db/entities/Restaurant.entity";
+import { OrderEntity } from "../infra/db/entities/OrderEntity";
+import { OrderItemEntity } from "../infra/db/entities/OrderItem.entity";
+import { ProductEntity } from "../infra/db/entities/ProductEntity";
+import { UserEntity } from "../infra/db/entities/UserEntity";
+import { RestaurantEntity } from "../infra/db/entities/RestaurantEntity";
 
 export class OrderController {
-  private orderRepository = AppDataSource.getRepository(Order);
-  private orderItemRepository = AppDataSource.getRepository(OrderItem);
-  private productRepository = AppDataSource.getRepository(Product);
-  private userRepository = AppDataSource.getRepository(User);
-  private restaurantRepository = AppDataSource.getRepository(Restaurant);
+  private orderRepository = AppDataSource.getRepository(OrderEntity);
+  private orderItemRepository = AppDataSource.getRepository(OrderItemEntity);
+  private productRepository = AppDataSource.getRepository(ProductEntity);
+  private userRepository = AppDataSource.getRepository(UserEntity);
+  private restaurantRepository = AppDataSource.getRepository(RestaurantEntity);
 
   async create(req: Request, res: Response): Promise<Response> {
     try {
@@ -32,7 +32,7 @@ export class OrderController {
 
       const savedOrder = await this.orderRepository.save(order);
 
-      const orderItems: OrderItem[] = [];
+      const orderItems: OrderItemEntity[] = [];
       let total = 0;
 
       for (const item of items) {
@@ -91,7 +91,7 @@ export class OrderController {
    async update(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      const { status } = req.body; // Por ahora solo actualizamos el estado
+      const { status } = req.body;
 
       const order = await this.orderRepository.findOneBy({ id });
       if (!order) {

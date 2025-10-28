@@ -1,13 +1,12 @@
 import { Router } from "express";
-import { RestaurantController } from "../controllers/RestaurantController.js";
+import { restaurantController } from "../controllers/RestaurantController.js";
 
-const router = Router();
-const controller = new RestaurantController();
+const restaurantRoutes = Router();
 
-router.post("/", controller.create.bind(controller));
-router.get("/", controller.getAll.bind(controller));
-router.get("/:id", controller.getById.bind(controller));
-router.put("/:id", controller.update.bind(controller));
-router.delete("/:id", controller.delete.bind(controller));
+restaurantRoutes.get("/", restaurantController.getAll);
+restaurantRoutes.get("/:id", restaurantController.getById);
+restaurantRoutes.post("/", restaurantController.create);
+restaurantRoutes.put("/:id", restaurantController.update);
+restaurantRoutes.delete("/:id", restaurantController.delete);
 
-export default router;
+export default restaurantRoutes;

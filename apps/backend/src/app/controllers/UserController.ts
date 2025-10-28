@@ -1,69 +1,84 @@
-import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { RegisterUser } from "../../../../../domain/src/use-cases/User/RegisterUser";
+import { LoginUser } from "../../../../../domain/src/use-cases/User/LoginUser";
+import { TypeOrmUserService } from "../infra/repositories/TypeOrmUserService";
+import { generarToken, verificarToken } from "../utils/jwt.js";
 import { AppDataSource } from "../infra/db/data-source";
-import { User } from "../infra/db/entities/User.entity.js";
-import { generarToken } from "../utils/jwt.js";
+import { UserEntity } from "../infra/db/entities/UserEntity";
+import jwt from "jsonwebtoken";
 
-export class UserController {
-  private userRepository = AppDataSource.getRepository(User);
+const userRepository = AppDataSource.getRepository(UserEntity);
+const userService = new TypeOrmUserService(userRepository);
 
-  async getAll(req: Request, res: Response) {
+const registerUser = new RegisterUser(userService);
+const loginUser = new LoginUser(userService);
+
+export const userController = {
+  register: async (req: Request, res: Response) => {
+    const { name, email, password, role } = req.body;
     try {
-      const users = await this.userRepository.find();
-      return res.json(users);
-    } catch (error) {
-      console.error("Error al obtener usuarios:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
-    }
-  }
+      const user = await registerUser.execute({ name, email, password, role });
+      const token = generarToken({ id: user.id, role: user.role });
 
-async create(req: Request, res: Response) {
+      res
+        .cookie("token", token, { httpOnly: true })
+        .status(201)
+        .json({ user, token });
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+
+  login: async (req: Request, res: Response) => {
+    const { email, password } = req.body;
+    try {
+      const user = await loginUser.execute({ email, password });
+      const token = generarToken({ id: user.id, role: user.role });
+
+      res
+        .cookie("token", token, { httpOnly: true })
+        .status(200)
+        .json({ user, token });
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+
+profile: async (req: Request, res: Response) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ message: "Token requerido" });
+
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "Token requerido" });
+
   try {
-    const { name, email, password } = req.body;
+    const payload = verificarToken(token);
 
-    if (!name || !email || !password)
-      return res.status(400).json({ message: "Faltan campos obligatorios" });
+    const user = await userService.findById((payload as any).id);
+    if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-    const existing = await this.userRepository.findOneBy({ email });
-    if (existing)
-      return res.status(400).json({ message: "El usuario ya existe" });
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    console.log("Hashed password:", hashedPassword);
-
-    const user = this.userRepository.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
-    await this.userRepository.save(user);
-
-    const { password: _, ...userWithoutPassword } = user;
-    return res.status(201).json(userWithoutPassword);
-  } catch (error) {
-    console.error("Error al crear usuario:", error);
-    return res.status(500).json({ message: "Error interno del servidor" });
+    res.status(200).json({ user });
+  } catch (err: any) {
+    res.status(401).json({ message: "Token inválido o expirado" });
   }
-}
+},
 
-
-  async login(req: Request, res: Response) {
+  list: async (_req: Request, res: Response) => {
     try {
-      const { email, password } = req.body;
-
-      const user = await this.userRepository.findOneBy({ email });
-      if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
-
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid)
-        return res.status(401).json({ message: "Contraseña incorrecta" });
-
-      const token = generarToken({ id: user.id, email: user.email, role: user.role });
-      return res.json({ message: "Inicio de sesión exitoso", token });    } catch (error) {
-      console.error("Error en login:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
+      const allUsers = await userService.findAll();
+      res.status(200).json(allUsers);
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
     }
-  }
-}
+  },
+
+  delete: async (req: Request, res: Response) => {
+    const { id } = req.params;
+    try {
+      await userService.delete(id);
+      res.status(204).send();
+    } catch (err: any) {
+      res.status(400).json({ message: err.message });
+    }
+  },
+};

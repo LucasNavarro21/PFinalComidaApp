@@ -1,94 +1,114 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../infra/db/data-source";
-import { Restaurant } from "../infra/db/entities/Restaurant.entity.js";
+import { restaurantService } from "../infra/repositories/TypeOrmRestaurantService";
+import { RestaurantCategory } from "../../../../../domain/src/entities/Restaurant"; 
 
-export class RestaurantController {
-  private restaurantRepository = AppDataSource.getRepository(Restaurant);
-
-  async create(req: Request, res: Response) {
+export const restaurantController = {
+  getAll: async (_req: Request, res: Response) => {
     try {
-      const { name, address, phone, category } = req.body;
-
-      if (!name || !address || !phone) {
-        return res.status(400).json({ message: "Faltan campos obligatorios" });
-      }
-
-      const restaurant = this.restaurantRepository.create({
-        name,
-        address,
-        phone,
-        category,
-      });
-
-      await this.restaurantRepository.save(restaurant);
-      return res.status(201).json(restaurant);
-    } catch (error) {
-      console.error("Error al crear restaurante:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
-    }
-  }
-
-  async getAll(req: Request, res: Response) {
-    try {
-      const restaurants = await this.restaurantRepository.find();
-      return res.json(restaurants);
+      const restaurants = await restaurantService.findAll();
+      res.status(200).json(restaurants);
     } catch (error) {
       console.error("Error al obtener restaurantes:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
+      res.status(500).json({ message: "Error del servidor" });
     }
-  }
+  },
 
-  async getById(req: Request, res: Response) {
+  getById: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const restaurant = await this.restaurantRepository.findOneBy({ id });
+      const restaurant = await restaurantService.findById(id);
 
-      if (!restaurant)
+      if (!restaurant) {
         return res.status(404).json({ message: "Restaurante no encontrado" });
+      }
 
-      return res.json(restaurant);
+      res.status(200).json(restaurant);
     } catch (error) {
       console.error("Error al obtener restaurante:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
+      res.status(500).json({ message: "Error del servidor" });
     }
-  }
+  },
 
-  async update(req: Request, res: Response) {
+  getByCategory: async (req: Request, res: Response) => {
+    try {
+      const { category } = req.params;
+
+      if (!Object.values(RestaurantCategory).includes(category as RestaurantCategory)) {
+        return res.status(400).json({ message: "Categoría inválida" });
+      }
+
+      const restaurants = await restaurantService.findByCategory(category as RestaurantCategory);
+      res.status(200).json(restaurants);
+    } catch (error) {
+      console.error("Error al filtrar restaurantes por categoría:", error);
+      res.status(500).json({ message: "Error del servidor" });
+    }
+  },
+
+  create: async (req: Request, res: Response) => {
+    try {
+      const { name, category, address, phone, createdAt, updatedAt } = req.body;
+
+      if (!Object.values(RestaurantCategory).includes(category as RestaurantCategory)) {
+        return res.status(400).json({ message: "Categoría inválida" });
+      }
+
+      const restaurant = await restaurantService.create({
+        name,
+        category: category as RestaurantCategory,
+        address,
+        phone,
+        createdAt,
+        updatedAt,
+      });
+
+      res.status(201).json(restaurant);
+    } catch (error) {
+      console.error("Error al crear restaurante:", error);
+      res.status(500).json({ message: "Error del servidor" });
+    }
+  },
+
+  update: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { name, address, phone, category, rating } = req.body;
+      const { name, category, address } = req.body;
 
-      const restaurant = await this.restaurantRepository.findOneBy({ id });
-      if (!restaurant)
+      if (category && !Object.values(RestaurantCategory).includes(category as RestaurantCategory)) {
+        return res.status(400).json({ message: "Categoría inválida" });
+      }
+
+        const updated = await restaurantService.update(id, {
+        name,
+        category: category as RestaurantCategory,
+        address,
+      });
+
+      if (!updated) {
         return res.status(404).json({ message: "Restaurante no encontrado" });
+      }
 
-      restaurant.name = name ?? restaurant.name;
-      restaurant.address = address ?? restaurant.address;
-      restaurant.phone = phone ?? restaurant.phone;
-      restaurant.category = category ?? restaurant.category;
-      restaurant.rating = rating ?? restaurant.rating;
-
-      await this.restaurantRepository.save(restaurant);
-      return res.json(restaurant);
+      res.status(200).json(updated);
     } catch (error) {
       console.error("Error al actualizar restaurante:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
+      res.status(500).json({ message: "Error del servidor" });
     }
-  }
+  },
 
-  async delete(req: Request, res: Response) {
+  delete: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const restaurant = await this.restaurantRepository.findOneBy({ id });
 
-      if (!restaurant)
+      const deleted = await restaurantService.delete(id);
+
+      if (!deleted) {
         return res.status(404).json({ message: "Restaurante no encontrado" });
+      }
 
-      await this.restaurantRepository.remove(restaurant);
-      return res.json({ message: "Restaurante eliminado correctamente" });
+      res.status(204).send();
     } catch (error) {
       console.error("Error al eliminar restaurante:", error);
-      return res.status(500).json({ message: "Error interno del servidor" });
+      res.status(500).json({ message: "Error del servidor" });
     }
-  }
-}
+  },
+};

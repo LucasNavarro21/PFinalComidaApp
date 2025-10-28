@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../infra/db/data-source.js";
-import { Product } from "../infra/db/entities/Product.entity.js";
+import { ProductEntity } from "../infra/db/entities/ProductEntity.js";
 
 export class ProductController {
-  private productRepository = AppDataSource.getRepository(Product);
+  private productRepository = AppDataSource.getRepository(ProductEntity);
 
   async getAll(req: Request, res: Response) {
     try {

@@ -12,7 +12,6 @@ router.get("/:id", (req, res) => orderController.getById(req, res));
 
 router.put("/:id", (req, res) => orderController.update(req, res));
 
-// Eliminar una orden
 router.delete("/:id", (req, res) => orderController.delete(req, res));
 
 export default router;

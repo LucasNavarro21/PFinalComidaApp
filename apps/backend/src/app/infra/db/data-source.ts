@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entities/User.entity.js";
-import { Restaurant } from "./entities/Restaurant.entity.js";
-import { Product } from "./entities/Product.entity.js";
-import { Order } from "./entities/Order.entity.js";
-import { OrderItem } from "./entities/OrderItem.entity.js";
+import { UserEntity } from "./entities/UserEntity.js";
+import { RestaurantEntity } from "./entities/RestaurantEntity.js";
+import { ProductEntity } from "./entities/ProductEntity.js";
+import { OrderEntity } from "./entities/OrderEntity.js";
+import { OrderItemEntity } from "./entities/OrderItem.entity.js";
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: "localhost",
@@ -14,7 +14,7 @@ export const AppDataSource = new DataSource({
   database: "pedidoscomida",
   synchronize: true,
   logging: true,
-  entities: [User, Restaurant, Product, Order, OrderItem],
+  entities: [UserEntity, RestaurantEntity, ProductEntity, OrderEntity, OrderItemEntity],
   migrations: [],
   subscribers: []
 });
