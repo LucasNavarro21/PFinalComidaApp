@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 import { RegisterUser } from "../../../../../domain/src/use-cases/User/RegisterUser";
 import { LoginUser } from "../../../../../domain/src/use-cases/User/LoginUser";
 import { TypeOrmUserService } from "../infra/repositories/TypeOrmUserService";
-import { generarToken, verificarToken } from "../utils/jwt.js";
+import { generarToken, verificarToken } from "../../../../../domain/src/utils/types/jwt.js";
 import { AppDataSource } from "../infra/db/data-source";
 import { UserEntity } from "../infra/db/entities/UserEntity";
-import jwt from "jsonwebtoken";
 
 const userRepository = AppDataSource.getRepository(UserEntity);
 const userService = new TypeOrmUserService(userRepository);
@@ -32,8 +31,7 @@ export const userController = {
   login: async (req: Request, res: Response) => {
     const { email, password } = req.body;
     try {
-      const user = await loginUser.execute({ email, password });
-      const token = generarToken({ id: user.id, role: user.role });
+      const { user, token } = await loginUser.execute({ email, password });
 
       res
         .cookie("token", token, { httpOnly: true })
