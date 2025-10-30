@@ -29,7 +29,7 @@ describe("LoginUser Use Case", () => {
   });
 
   it("debería permitir login de un usuario con rol válido", async () => {
-    const user = await loginUser.execute({
+    const {user} = await loginUser.execute({
       email: "customer@example.com",
       password: "123456",
       requiredRole: "CUSTOMER",

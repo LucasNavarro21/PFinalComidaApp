@@ -35,7 +35,6 @@ describe("AssignOrderToDelivery", () => {
       updatedAt: new Date(),
     });
     
-  // 👈 Aquí es donde creas el spy
   const spyAssign = vi.spyOn(deliveryService, "assignOrder");
 
   await useCase.execute("1");
@@ -43,7 +42,6 @@ describe("AssignOrderToDelivery", () => {
   const updatedOrder = await orderService.findById("1");
   expect(updatedOrder?.status).toBe(OrderStatus.ON_THE_WAY);
 
-  // 👈 Ahora sí funciona
   expect(spyAssign).toHaveBeenCalledWith("d1", "1");
   });
 });

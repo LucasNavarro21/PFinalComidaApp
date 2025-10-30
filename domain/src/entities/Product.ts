@@ -9,7 +9,7 @@ export type ProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus];
 
 export interface Product extends Entity {
   name: string;
-  description: string;
+  description?: string;
   price: number;
   status: ProductStatus;
   restaurantId: string;

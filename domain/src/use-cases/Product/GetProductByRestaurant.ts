@@ -1,6 +1,6 @@
 // usecases/GetProductsByRestaurant.ts
-import type { Product } from "../entities/Product.js";
-import type { ProductService } from "../services/ProductService.js";
+import type { Product } from "../../entities/Product.js";
+import type { ProductService } from "../../services/ProductService.js";
 
 export class GetProductsByRestaurant {
   constructor(private readonly productService: ProductService) {}

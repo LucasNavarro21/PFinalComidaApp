@@ -29,7 +29,6 @@ describe("UpdateOrderStatus Use Case", () => {
       updatedAt: new Date(),
     };
 
-    // Mockear los métodos
     (mockOrderService.findById as any).mockResolvedValue(order);
     (mockOrderService.updateStatus as any).mockImplementation(
       (id: string, status: Order["status"]) =>

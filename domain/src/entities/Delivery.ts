@@ -11,6 +11,6 @@ export const DeliveryStatus = {
   AVAILABLE: "AVAILABLE",
   BUSY: "BUSY",
   OFFLINE: "OFFLINE",
+  
 } as const;
-
 export type DeliveryStatus = (typeof DeliveryStatus)[keyof typeof DeliveryStatus];

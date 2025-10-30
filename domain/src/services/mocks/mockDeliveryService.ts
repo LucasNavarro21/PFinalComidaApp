@@ -42,11 +42,9 @@ export class MockedDeliveryService implements DeliveryService {
   async save(delivery: Delivery): Promise<Delivery> {
     const index = this.deliveries.findIndex(d => d.id === delivery.id);
     if (index !== -1) {
-      // Si ya existe, actualiza
       this.deliveries[index] = { ...delivery, updatedAt: new Date() };
       return this.deliveries[index];
     } else {
-      // Si no existe, crea uno nuevo
       const newDelivery = {
         ...delivery,
         id: delivery.id ?? randomUUID(),

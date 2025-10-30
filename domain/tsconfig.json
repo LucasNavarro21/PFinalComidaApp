@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "rootDir": "./src",
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "noEmitOnError": true,
+    "typeRoots": ["./node_modules/@types"]
+  },
+  "include": ["src/**/*", "src/utils/types/jwt.ts"],
+  "exclude": ["node_modules", "dist"]
+}

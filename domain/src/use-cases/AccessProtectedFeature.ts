@@ -1,13 +1,19 @@
-import { type User, type UserRole } from "../entities/User.js";
+import { UserRole } from "../entities/User.js";
 
 export class AccessProtectedFeature {
-  constructor(private readonly allowedRoles: UserRole[]) {}
+  static async execute(userRole: UserRole, requiredRole: UserRole): Promise<boolean> {
+    const rolesHierarchy = [
+      UserRole.CUSTOMER,
+      UserRole.RESTAURANT_OWNER,
+      UserRole.ADMIN,
+      UserRole.DELIVERY_PERSON
+    ];
 
-  execute(user: User): string {
-    if (!this.allowedRoles.includes(user.role)) {
-      throw new Error("Acceso denegado: rol no autorizado");
-    }
+    const userIndex = rolesHierarchy.indexOf(userRole);
+    const requiredIndex = rolesHierarchy.indexOf(requiredRole);
 
-    return `Acceso permitido para rol ${user.role}`;
+    if (userIndex === -1 || requiredIndex === -1) return false;
+
+    return userIndex >= requiredIndex;
   }
 }

@@ -10,7 +10,6 @@ export class ListProducts {
   }): Promise<Product[]> {
     const allProducts = await this.productService.findAll();
 
-    // Si hay filtros, los aplicamos manualmente
     if (filters) {
       return allProducts.filter((product) => {
         const matchRestaurant =
