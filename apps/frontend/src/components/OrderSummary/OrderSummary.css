@@ -1,0 +1,78 @@
+.order-summary {
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.order-summary h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.order-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-summary li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.order-summary li img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.order-summary li div {
+  flex: 1;
+}
+
+.order-summary strong {
+  display: block;
+  font-size: 1rem;
+  color: #222;
+}
+
+.order-summary p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.order-summary h3 {
+  text-align: right;
+  margin-top: 20px;
+  color: #111;
+  font-weight: 600;
+}
+
+.order-summary button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #ff3c00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.order-summary button:hover {
+  background-color: #e63600;
+}

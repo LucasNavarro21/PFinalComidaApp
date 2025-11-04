@@ -1,0 +1,21 @@
+.register-form {
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.register-form h2 {
+  text-align: center;
+}
+
+.register-form .error {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+}
