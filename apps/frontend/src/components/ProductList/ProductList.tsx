@@ -1,36 +1,24 @@
-import React, { useEffect, useState } from "react";
-import "./ProductList.css";
-import type { Product } from "../../services/types/product.types";
+// src/components/ProductList/ProductList.tsx
+import React from "react";
+import "./productList.css";
 import { ProductCard } from "../ProductCard/ProductCard";
+import { useProducts } from "../../hooks/useProduct";
 
-// import { productService } from "../../services/mock/ProductServiceMock";
-import { productService } from "../../services/api/ProductServiceApi";
+interface ProductListProps {
+  restaurantId: number;
+}
 
-export const ProductList: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export const ProductList: React.FC<ProductListProps> = ({ restaurantId }) => {
+  const { products, loading, error } = useProducts(restaurantId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await productService.findAll();
-        setProducts(data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (loading) return <p>Loading products...</p>;
-  if (products.length === 0) return <p>No products available.</p>;
+  if (loading) return <p>Cargando productos...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!products.length) return <p>No hay productos disponibles.</p>;
 
   return (
     <div className="product-list">
       {products.map((product) => (
-        <ProductCard key={product.id} />
+        <ProductCard key={product.id} {...product} />
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 // src/mocks/products.mock.ts
-import type { Product } from "../services/types/product.types";
+import type { Product } from "../types/product.types";
 
 export const mockProducts: Product[] = [
   {

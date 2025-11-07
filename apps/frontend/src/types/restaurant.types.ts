@@ -26,6 +26,7 @@ export type Restaurant = {
   rating: number;
   products?: Product[];
   orders?: Order[];
+  image?:string,
   createdAt: string;
   updatedAt: string;
 };

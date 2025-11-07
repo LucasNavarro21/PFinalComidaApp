@@ -1,4 +1,4 @@
-import type { Restaurant } from "../services/types/restaurant.types";
+import type { Restaurant } from "../types/restaurant.types";
 import { RestaurantCard } from "../components/RestaurantList/RestaurantCard";
 import "./RestaurantList.css";
 

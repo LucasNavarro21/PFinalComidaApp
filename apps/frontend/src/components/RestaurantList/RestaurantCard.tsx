@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Restaurant } from "../../services/types/restaurant.types";
+import type { Restaurant } from "../../types/restaurant.types";
 // import { RestaurantService } from "../../services/api/RestaurantServiceApi"; 
 import { RestaurantService } from "../../services/mock/RestaurantServiceMock"; 
 

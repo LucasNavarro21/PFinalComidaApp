@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProductList } from "./ProductList";
 
-// import { productService } from "../../services/mock/ProductServiceMock";
-import { productService } from "../../services/api/ProductServiceApi";
+import { ProductService } from "../../services/api/ProductServiceApi";
+// import { ProductService } from "../../services/mock/ProductServiceMock";
 
 const meta: Meta<typeof ProductList> = {
   title: "Components/ProductList",
@@ -12,19 +12,24 @@ export default meta;
 
 type Story = StoryObj<typeof ProductList>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: { restaurantId: 1 },
+};
 
 export const Empty: Story = {
+  args: { restaurantId: 1 },
   decorators: [
     (StoryFn) => {
-      const originalFindAll = productService.findAll;
+      const originalFetch = globalThis.fetch;
+      const originalFindAll = ProductService.getProductsByRestaurant;
 
-      productService.findAll = async () => [];
+      ProductService.getProductsByRestaurant = async () => [];
 
       const story = <StoryFn />;
 
       setTimeout(() => {
-        productService.findAll = originalFindAll;
+        ProductService.getProductsByRestaurant = originalFindAll;
+        globalThis.fetch = originalFetch;
       }, 1500);
 
       return story;

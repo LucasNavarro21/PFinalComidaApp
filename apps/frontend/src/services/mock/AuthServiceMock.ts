@@ -1,5 +1,5 @@
 import { mockUsers } from "../../mocks/user.mocks";
-import type { User } from "../types/user.types";
+import type { User } from "../../types/user.types";
 
 export const AuthService = {
   login: (email: string, password: string): Promise<User | null> => {

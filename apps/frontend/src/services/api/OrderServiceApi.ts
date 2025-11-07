@@ -1,4 +1,4 @@
-import type { OrderItem } from "../../services/types/order.types";
+import type { OrderItem } from "../../types/order.types";
 
 const API_BASE_URL = "http://localhost:3000";
 

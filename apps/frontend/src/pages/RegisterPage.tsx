@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { RegisterForm } from "../components/RegisterForm/RegisterForm";
 import { registerUser } from "../services/mock/AuthServiceMock";
-import type { RegisterData } from "../services/types/auth.types";
+import type { RegisterData } from "../types/auth.types";
 
 export default function RegisterPage() {
   const [message, setMessage] = useState("");

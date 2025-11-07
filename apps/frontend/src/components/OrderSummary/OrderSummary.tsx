@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { OrderItem } from "../../services/types/order.types";
+import type { OrderItem } from "../../types/order.types";
 
 // import { OrderItemService } from "../../services/mock/OrderServiceMock";
 import { OrderItemService } from "../../services/api/OrderServiceApi";

@@ -1,4 +1,4 @@
-import type { Restaurant } from "../services/types/restaurant.types";
+import type { Restaurant } from "../types/restaurant.types";
 
 export const mockRestaurants: Restaurant[] = [
   {

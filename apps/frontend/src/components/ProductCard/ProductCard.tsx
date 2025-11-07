@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./ProductCard.css";
-import type { Product } from "../../services/types/product.types";
+import type { Product } from "../../types/product.types";
 
-// import { productService } from "../../services/mock/ProductServiceMock";
-import { productService } from "../../services/api/ProductServiceApi";
+// import { ProductService } from "../../services/mock/ProductServiceMock";
+import { ProductService } from "../../services/api/ProductServiceApi";
 
 export const ProductCard: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const data = await productService.findAll();
+      const data = await ProductService.findAll();
       setProducts(data);
     };
     fetchProducts();

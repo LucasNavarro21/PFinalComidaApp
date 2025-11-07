@@ -1,6 +1,6 @@
 import React from "react";
 import { OrderSummary } from "../components/OrderSummary/OrderSummary";
-import type { CartItem } from "../services/types/cart.types";
+import type { CartItem } from "../types/cart.types";
 
 export default function OrderSummaryPage() {
   const mockCart: CartItem[] = [

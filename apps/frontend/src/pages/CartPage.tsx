@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Cart } from "../components/Cart/Cart";
-import type { Product } from "../services/types/product.types";
+import type { Product } from "../types/product.types";
 
 export default function CartPage() {
   const [items, setItems] = useState<(Product & { quantity: number })[]>([
