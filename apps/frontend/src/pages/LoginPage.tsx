@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {LoginForm} from "../components/LoginForm/LoginForm";
-import { loginUser } from "../services/AuthService";
+import { loginUser } from "../services/mock/AuthServiceMock";
 
 export default function LoginPage() {
   const [message, setMessage] = useState("");

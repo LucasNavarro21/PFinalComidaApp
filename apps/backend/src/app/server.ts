@@ -8,10 +8,14 @@ import productRoutes from "./routes/ProductRoutes";
 import restaurantRoutes from "./routes/RestaurantRoutes.js";
 import orderRoutes from "./routes/OrderRoutes.js";
 import orderItemRoutes from "./routes/OrderItemRoutes";
+import cors from "cors";
+
 
 export async function createServer() {
   const app = express();
   app.use(express.json());
+  app.use(cors());
+
 
 
 
@@ -35,3 +39,5 @@ export async function createServer() {
 
   return app;
 }
+
+

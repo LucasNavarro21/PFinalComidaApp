@@ -1,33 +1,57 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { OrderSummary } from "./OrderSummary";
-import type { CartItem } from "../../services/types/cart.types";
+
+import * as ApiService from "../../services/api/OrderServiceApi";
+// import * as MockService from "../../services/mock/OrderServiceMock";
+
+const ActiveService = (ApiService as any).OrderItemService; 
+// const ActiveService = (MockService as any).OrderItemService; // si querés mock
 
 const meta: Meta<typeof OrderSummary> = {
   title: "Components/OrderSummary",
   component: OrderSummary,
-  parameters: {
-    layout: "centered",
-  },
 };
 export default meta;
 
 type Story = StoryObj<typeof OrderSummary>;
 
-const sampleCart: CartItem[] = [
-  { id: 1, name: "Hamburguesa Doble", price: 2500, quantity: 1, image: "/img/burger.jpg" },
-  { id: 2, name: "Papas Fritas", price: 1200, quantity: 2, image: "/img/fries.jpg" },
-];
+export const Default: Story = {};
 
-export const Default: Story = {
-  args: {
-    cartItems: sampleCart,
-    onCheckout: () => alert("Pasando al pago 💳"),
-  },
-};
+export const Empty: Story = {
+  decorators: [
+    (StoryFn) => {
+      const originalFetch = globalThis.fetch;
+      const originalGetAll = ActiveService.getAll;
 
-export const EmptyCart: Story = {
-  args: {
-    cartItems: [],
-    onCheckout: () => alert("No hay nada en el carrito 😢"),
-  },
+      if (ActiveService === ApiService.OrderItemService) {
+        console.log(" Interceptando fetch para /order-items...");
+        globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+          if (typeof input === "string" && input.includes("/order-items")) {
+            console.log("Respuesta vacía simulada (Empty mode)");
+            return new Response(JSON.stringify([]), {
+              status: 200,
+              headers: { "Content-Type": "application/json" },
+            });
+          }
+          return originalFetch(input, init);
+        };
+      } else {
+        console.log("🔸 Usando mock vacío");
+        ActiveService.getAll = async () => [];
+      }
+
+      const story = <StoryFn />;
+
+      // Restauramos al desmontar
+      setTimeout(() => {
+        if (ActiveService === ApiService.OrderItemService) {
+          globalThis.fetch = originalFetch;
+        } else {
+          ActiveService.getAll = originalGetAll;
+        }
+      }, 1500);
+
+      return story;
+    },
+  ],
 };

@@ -46,6 +46,7 @@ export class OrderController {
           order: savedOrder,
           product, 
           quantity: item.quantity,
+          unitPrice: product.price,
           subtotal,
         });
 

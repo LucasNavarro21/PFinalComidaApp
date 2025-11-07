@@ -1,17 +1,32 @@
-import type { Product } from "../../services/types/product.types";
+import React, { useEffect, useState } from "react";
 import "./ProductCard.css";
+import type { Product } from "../../services/types/product.types";
 
-interface ProductCardProps {
-  product: Product;
-}
+// import { productService } from "../../services/mock/ProductServiceMock";
+import { productService } from "../../services/api/ProductServiceApi";
 
-export function ProductCard({ product }: ProductCardProps) {
+export const ProductCard: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const data = await productService.findAll();
+      setProducts(data);
+    };
+    fetchProducts();
+  }, []);
+
+  if (products.length === 0) return <p>No products available.</p>;
+
   return (
-    <div className="product-card">
-      <img src={product.image} alt={product.name} />
-      <h3>{product.name}</h3>
-      <p>{product.description}</p>
-      <span>${product.price}</span>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+      {products.map((product) => (
+        <div className="product-card" key={product.id}>
+          <img src={product.image} alt={product.name} />
+          <h3>{product.name}</h3>
+          <span>${product.price}</span>
+        </div>
+      ))}
     </div>
   );
-}
+};

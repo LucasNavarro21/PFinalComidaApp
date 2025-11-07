@@ -1,0 +1,14 @@
+import type { Product } from "../../services/types/product.types";
+import { mockProducts } from "../../mocks/product.mocks";
+
+export const productService = {
+  async findAll(): Promise<Product[]> {
+    await new Promise((res) => setTimeout(res, 500));
+    return mockProducts;
+  },
+
+  async getProductsByRestaurant(restaurantId: number): Promise<Product[]> {
+    await new Promise((res) => setTimeout(res, 500));
+    return mockProducts.filter((p) => p.restaurantId === restaurantId);
+  },
+};

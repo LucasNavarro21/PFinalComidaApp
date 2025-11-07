@@ -1,0 +1,38 @@
+.restaurant-list {
+  width: 320px;
+  margin: auto;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background: #fff;
+}
+
+.restaurant-list h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.restaurant-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.restaurant-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.restaurant-item:last-child {
+  border-bottom: none;
+}
+
+.restaurant-item h3 {
+  margin: 0 0 5px 0;
+}
+
+.restaurant-item p {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #555;
+}

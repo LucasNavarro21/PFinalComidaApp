@@ -1,30 +1,39 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { RegisterForm } from "./RegisterForm";
 
+import * as MockService from "../../services/mock/AuthServiceMock";
+// import * as ApiService from "../../services/api/AuthServiceApi";
+
+const ActiveService = (MockService as any).AuthService;
+// const ActiveService = (ApiService as any).AuthService; // si querés API
+
 const meta: Meta<typeof RegisterForm> = {
   title: "Components/RegisterForm",
   component: RegisterForm,
-  parameters: {
-    layout: "centered",
-  },
 };
 export default meta;
 
 type Story = StoryObj<typeof RegisterForm>;
 
-export const Default: Story = {
-  args: {
-    onRegister: async (data) => {
-      alert(`Usuario registrado:\n${JSON.stringify(data, null, 2)}`);
-    },
-  },
-};
+export const Default: Story = {};
 
-export const EmailAlreadyExists: Story = {
-  args: {
-    onRegister: async () => {
-      throw new Error("El email ya está registrado");
-      // alert("El email ya esta registrado")
+export const Empty: Story = {
+  decorators: [
+    (StoryFn) => {
+      const originalRegister = ActiveService.register;
+
+      ActiveService.register = async () => {
+        console.log("Simulando error en registro (Empty mode)");
+        throw new Error("Error simulado en registro");
+      };
+
+      const story = <StoryFn />;
+
+      setTimeout(() => {
+        ActiveService.register = originalRegister;
+      }, 1500);
+
+      return story;
     },
-  },
+  ],
 };

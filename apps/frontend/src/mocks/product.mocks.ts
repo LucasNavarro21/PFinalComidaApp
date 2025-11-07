@@ -1,6 +1,7 @@
-import type { Product } from "./types/product.types";
+// src/mocks/products.mock.ts
+import type { Product } from "../services/types/product.types";
 
-const mockProducts: Product[] = [
+export const mockProducts: Product[] = [
   {
     id: 1,
     restaurantId: 1,
@@ -29,8 +30,3 @@ const mockProducts: Product[] = [
     category: "Pizzas",
   },
 ];
-
-export async function getProductsByRestaurant(restaurantId: number): Promise<Product[]> {
-  await new Promise((res) => setTimeout(res, 500)); // simulamos delay
-  return mockProducts.filter((p) => p.restaurantId === restaurantId);
-}

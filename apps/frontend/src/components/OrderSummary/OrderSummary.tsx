@@ -1,34 +1,44 @@
-import type { CartItem } from "../../services/types/cart.types";
+import { useEffect, useState } from "react";
+import type { OrderItem } from "../../services/types/order.types";
+
+// import { OrderItemService } from "../../services/mock/OrderServiceMock";
+import { OrderItemService } from "../../services/api/OrderServiceApi";
+
 import "./OrderSummary.css";
 
-export interface OrderSummaryProps {
-  cartItems: CartItem[];
-  onCheckout: () => void;
-}
+export function OrderSummary() {
+  const [items, setItems] = useState<OrderItem[]>([]);
 
-export function OrderSummary({ cartItems, onCheckout }: OrderSummaryProps) {
-  const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  useEffect(() => {
+    (async () => {
+      const data = await OrderItemService.getAll();
+      setItems(data);
+    })();
+  }, []);
 
-  if (cartItems.length === 0) {
-    return <p>Tu carrito está vacío 🛒</p>;
-  }
+  const total = items.reduce(
+    (sum, item) => sum + item.quantity * (item.product.price ?? 0),
+    0
+  );
 
   return (
     <div className="order-summary">
-      <h2>Resumen del pedido</h2>
-      <ul>
-        {cartItems.map((item) => (
-          <li key={item.id}>
-            <img src={item.image} alt={item.name} />
-            <div>
-              <strong>{item.name}</strong>
-              <p>{item.quantity} x ${item.price}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <h3>Total: ${total}</h3>
-      <button onClick={onCheckout}>Ir al pago 💳</button>
+      <h2>Resumen del Pedido</h2>
+      {items.length === 0 ? (
+        <p>No hay productos en el pedido.</p>
+      ) : (
+        <>
+          <ul>
+            {items.map((item) => (
+              <li key={item.product.id}>
+                {item.product.name} — {item.quantity} × $
+                {item.product.price.toFixed(2)}
+              </li>
+            ))}
+          </ul>
+          <h3>Total: ${total.toFixed(2)}</h3>
+        </>
+      )}
     </div>
   );
 }

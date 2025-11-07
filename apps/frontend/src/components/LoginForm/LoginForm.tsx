@@ -1,56 +1,53 @@
 import { useState } from "react";
 import "./LoginForm.css";
+import { AuthService } from "../../services/mock/AuthServiceMock"; 
 
-interface LoginFormProps {
-  onLogin?: (username: string, password: string) => Promise<{
-    success: boolean;
-    message: string;
-  }>;
-}
-
-export function LoginForm({ onLogin }: LoginFormProps) {
-  const [username, setUsername] = useState("");
+export const LoginForm = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
 
     try {
-      if (onLogin) {
-        const result = await onLogin(username, password);
+      const user = await AuthService.login(email, password);
 
-        if (!result.success) {
-          setError(result.message);
-        } else {
-          setError("");  
-        }
+      if (user) {
+        setSuccess(`Bienvenido, ${user.name}!`);
       } else {
-        console.log("Login:", username, password);
+        setError("Credenciales incorrectas.");
       }
     } catch {
-      setError("Ocurrió un error inesperado");
+      setError("Error al iniciar sesión.");
     }
   };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Inicio de sesión</h2>
+      <h2>Iniciar sesión</h2>
+
       <input
-        type="text"
-        placeholder="Usuario"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        type="email"
+        placeholder="Correo electrónico"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
+
       <input
         type="password"
         placeholder="Contraseña"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">Ingresar</button>
+
+      <button type="submit">Entrar</button>
+
       {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
     </form>
   );
-}
+};

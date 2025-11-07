@@ -1,59 +1,43 @@
-import { useState } from "react";
-import type { Product } from "../../services/types/product.types";
-import "./Cart.css";
+import "./cart.css";
+import type { CartItem } from "../../services/types/cart.types";
 
-interface CartItem extends Product {
-  quantity: number;
-}
+type CartProps = {
+  items: CartItem[];
+  onRemove?: (id: number) => void;
+};
 
-interface CartProps {
-  initialItems?: CartItem[];
-}
-
-export function Cart({ initialItems = [] }: CartProps) {
-  const [items, setItems] = useState<CartItem[]>(initialItems);
-
-  const handleQuantityChange = (id: number, delta: number) => {
-    setItems((prev) =>
-      prev
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  const total = items.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+export function Cart({ items, onRemove }: CartProps) {
+  const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <div className="cart">
-      <h2>🛒 Carrito</h2>
+      <h2>Tu carrito</h2>
       {items.length === 0 ? (
-        <p>Tu carrito está vacío.</p>
+        <p>El carrito está vacío</p>
       ) : (
-        <ul>
+        <ul className="cart-list">
           {items.map((item) => (
             <li key={item.id} className="cart-item">
               <img src={item.image} alt={item.name} />
-              <div>
+              <div className="cart-item-info">
                 <h4>{item.name}</h4>
-                <p>${item.price} x {item.quantity}</p>
-                <div className="cart-controls">
-                  <button onClick={() => handleQuantityChange(item.id, -1)}>-</button>
-                  <button onClick={() => handleQuantityChange(item.id, +1)}>+</button>
-                </div>
+                <p>
+                  {item.quantity} x ${item.price}
+                </p>
               </div>
+              {onRemove && (
+                <button
+                  className="cart-remove-btn"
+                  onClick={() => onRemove(item.id)}
+                >
+                  Eliminar
+                </button>
+              )}
             </li>
           ))}
         </ul>
       )}
-      <h3>Total: ${total.toFixed(2)}</h3>
-      <button disabled={items.length === 0}>Confirmar Pedido</button>
+      <h3 className="cart-total">Total: ${total}</h3>
     </div>
   );
 }

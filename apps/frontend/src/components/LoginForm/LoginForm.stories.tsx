@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { LoginForm } from "../LoginForm/LoginForm";
-import { loginUser } from "../../services/AuthService"; 
+import { LoginForm } from "./LoginForm";
+
+// import { AuthService } from "../../services/api/AuthServiceApi";
+import { AuthService } from "../../services/mock/AuthServiceMock";
 
 const meta: Meta<typeof LoginForm> = {
   title: "Components/LoginForm",
@@ -10,22 +12,24 @@ export default meta;
 
 type Story = StoryObj<typeof LoginForm>;
 
-export const Default: Story = {
-  args: {
-    onLogin: async (username: string, password: string) => {
-      const result = await loginUser(username, password);
-      return result;
-    },
-  },
-};
+export const Default: Story = {};
 
-export const InvalidCredentials: Story = {
-  args: {
-    onLogin: async () => {
-      return {
-        success: false,
-        message: "Usuario o contraseña incorrectos (mockeado desde Storybook)",
-      };
+
+export const Empty: Story = {
+  decorators: [
+    (StoryFn) => {
+      const originalLogin = AuthService.login;
+
+      AuthService.login = async () => null;
+
+      const story = <StoryFn />;
+
+
+      setTimeout(() => {
+        AuthService.login = originalLogin;
+      }, 1500);
+
+      return story;
     },
-  },
+  ],
 };

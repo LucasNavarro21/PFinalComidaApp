@@ -1,10 +1,31 @@
-    export interface Restaurant {
-  id: number;
+export type RestaurantCategory = "FAST_FOOD" | "ITALIAN" | "ASIAN" | "VEGAN" | "OTHER";
+
+export type Product = {
+  id: string;
   name: string;
-  image: string;
-  category: string;   // Ej: “Pizzería”, “Sushi”, “Hamburguesas”
-  rating: number;     // Promedio de estrellas (1 a 5)
-  deliveryTime: string; // Ej: “30-40 min”
-  isOpen: boolean;
-  address: string
-}
+  price: number;
+  description?: string;
+  status: "AVAILABLE" | "UNAVAILABLE";
+  restaurantId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Order = {
+  id: string;
+  total: number;
+  createdAt: string;
+};
+
+export type Restaurant = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  category: RestaurantCategory;
+  rating: number;
+  products?: Product[];
+  orders?: Order[];
+  createdAt: string;
+  updatedAt: string;
+};

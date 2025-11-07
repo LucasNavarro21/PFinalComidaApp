@@ -1,83 +1,69 @@
+// src/components/RegisterForm/RegisterForm.tsx
 import React, { useState } from "react";
-import "./RegisterForm.css";
-import type { RegisterData } from "../../services/types/auth.types";
+import "./registerForm.css";
 
-// interface RegisterFormProps {
-//   onRegister: (data: { name: string; email: string; password: string; role: string }) => void;
-// }
+import { AuthService } from "../../services/mock/AuthServiceMock";
+// import { AuthService } from "../../services/api/AuthServiceApi"; // futuro uso
 
-interface RegisterFormProps {
-  onRegister?: (data: RegisterData) => Promise<void>;
-}
-
-export function RegisterForm({ onRegister }: RegisterFormProps) {
-  const [formData, setFormData] = useState<RegisterData>({
-    name: "",
-    email: "",
-    password: "",
-    role: "CUSTOMER",
-  });
+export const RegisterForm: React.FC = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess("");
+
+    if (!name || !email || !password) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
 
     try {
-      if (onRegister) {
-        await onRegister(formData);
-      } else {
-        console.log("Registro:", formData);
+      const newUser = await AuthService.register(name, email, password);
+      if (newUser) {
+        setSuccess("Registro exitoso. ¡Bienvenido!");
+        setName("");
+        setEmail("");
+        setPassword("");
       }
-    } catch (err: any) {
-      setError(err.message || "Ocurrió un error durante el registro");
+    } catch (err) {
+      setError("Error al registrar el usuario.");
     }
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="register-form" onSubmit={handleSubmit}>
       <h2>Registro</h2>
 
       <input
         type="text"
-        name="name"
         placeholder="Nombre"
-        value={formData.name}
-        onChange={handleChange}
-        required
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <input
         type="email"
-        name="email"
         placeholder="Correo electrónico"
-        value={formData.email}
-        onChange={handleChange}
-        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
-        name="password"
         placeholder="Contraseña"
-        value={formData.password}
-        onChange={handleChange}
-        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
-
-      <select name="role" value={formData.role} onChange={handleChange}>
-        <option value="CUSTOMER">Cliente</option>
-        <option value="RESTAURANT_OWNER">Dueño de Restaurante</option>
-        <option value="ADMIN">Administrador</option>
-      </select>
 
       <button type="submit">Registrarse</button>
 
       {error && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>}
     </form>
   );
-}
+};
