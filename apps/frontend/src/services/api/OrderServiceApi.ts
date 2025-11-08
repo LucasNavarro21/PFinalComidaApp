@@ -11,7 +11,7 @@ export const OrderItemService = {
     return response.json();
   },
 
-  async getByOrderId(orderId: string): Promise<OrderItem[]> {
+  async getOrderById(orderId: string): Promise<OrderItem[]> {
     const response = await fetch(`${API_BASE_URL}/order-items/${orderId}`);
     if (!response.ok) {
       throw new Error(`Error al obtener los ítems del pedido ${orderId}`);

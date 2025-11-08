@@ -8,8 +8,8 @@ interface ProductListProps {
   restaurantId: number;
 }
 
-export const ProductList: React.FC<ProductListProps> = ({ restaurantId }) => {
-  const { products, loading, error } = useProducts(restaurantId);
+export const ProductList: React.FC<ProductListProps> = () => {
+  const { products, loading, error } = useProducts();
 
   if (loading) return <p>Cargando productos...</p>;
   if (error) return <p>Error: {error}</p>;

@@ -2,8 +2,8 @@
 import { useEffect, useState } from "react";
 import type { Restaurant } from "../types/restaurant.types";
 
-import { RestaurantService } from "../services/api/RestaurantServiceApi";
-// import { RestaurantService } from "../services/mock/RestaurantServiceMock";
+// import { RestaurantService } from "../services/api/RestaurantServiceApi";
+import { RestaurantService } from "../services/mock/RestaurantServiceMock";
 
 export function useRestaurants() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);

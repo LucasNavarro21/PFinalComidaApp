@@ -1,30 +1,74 @@
 .order-summary {
-  width: 320px;
-  margin: auto;
-  padding: 16px;
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: system-ui, sans-serif;
+}
+
+.order-summary-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.order-items {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid #e6e6e6;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  background: #fff;
+  transition: background-color 0.2s ease;
 }
 
-.order-summary h2 {
+.order-item:hover {
+  background-color: #f8f9fa;
+}
+
+.order-item-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-item-name {
+  font-weight: 500;
+  color: #34495e;
+}
+
+.order-item-qty {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.order-item-subtotal {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  border-top: 2px solid #e6e6e6;
+  padding-top: 12px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.order-error {
+  color: #e74c3c;
   text-align: center;
-  margin-bottom: 10px;
-}
-
-.order-summary ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.order-summary li {
-  padding: 6px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.order-summary h3 {
-  text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
+  font-weight: 500;
 }

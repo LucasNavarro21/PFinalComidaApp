@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product.types";
-
-import { ProductService } from "../services/api/ProductServiceApi";
 // import { ProductService } from "../services/mock/ProductServiceMock";
+import { ProductService } from "../services/api/ProductServiceApi";
 
-export function useProducts(restaurantId: number) {
+export function useProducts() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!restaurantId) return;
-
     setLoading(true);
-    ProductService.getProductsByRestaurant(restaurantId)
+    ProductService.findAll()
       .then((data) => {
         setProducts(data);
         setError(null);
       })
       .catch(() => setError("Error loading products"))
       .finally(() => setLoading(false));
-  }, [restaurantId]);
+  }, []);
 
   return { products, loading, error };
 }

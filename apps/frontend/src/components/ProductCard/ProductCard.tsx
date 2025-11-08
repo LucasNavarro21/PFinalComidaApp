@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from "react";
 import "./ProductCard.css";
-import type { Product } from "../../types/product.types";
+import { useProducts } from "../../hooks/useProduct";
 
-// import { ProductService } from "../../services/mock/ProductServiceMock";
-import { ProductService } from "../../services/api/ProductServiceApi";
+export function ProductCard() {
+  const { products, loading, error } = useProducts();
 
-export const ProductCard: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await ProductService.findAll();
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
-
-  if (products.length === 0) return <p>No products available.</p>;
+  if (loading) return <p>Loading products...</p>;
+  if (error) return <p>{error}</p>;
+  if (products.length === 0) return <p>No products found.</p>;
 
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+    <div className="product-card-container">
       {products.map((product) => (
-        <div className="product-card" key={product.id}>
+        <div key={product.id} className="product-card">
           <img src={product.image} alt={product.name} />
-          <h3>{product.name}</h3>
-          <span>${product.price}</span>
+          <div className="product-info">
+            <h3>{product.name}</h3>
+            <p className="product-category">{product.category}</p>
+            <span className="product-price">${product.price}</span>
+          </div>
         </div>
       ))}
     </div>
   );
-};
+}

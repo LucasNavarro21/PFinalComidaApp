@@ -1,5 +1,5 @@
 import type { Restaurant } from "../types/restaurant.types";
-import { RestaurantCard } from "../components/RestaurantList/RestaurantCard";
+import { RestaurantCard } from "../components/RestaurantCard/RestaurantCard";
 import "./RestaurantList.css";
 
 interface RestaurantListProps {

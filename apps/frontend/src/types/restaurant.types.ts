@@ -1,4 +1,4 @@
-export type RestaurantCategory = "FAST_FOOD" | "ITALIAN" | "ASIAN" | "VEGAN" | "OTHER";
+export type RestaurantCategory = "Hamburguer" | "Italian" | "Asian" | "Vegan" | "Empanadas" | "Pizzas";
 
 export type Product = {
   id: string;
@@ -25,6 +25,9 @@ export type Restaurant = {
   category: RestaurantCategory;
   rating: number;
   products?: Product[];
+  description: string;
+  deliveryTime: string;
+  isOpen: boolean;
   orders?: Order[];
   image?:string,
   createdAt: string;
