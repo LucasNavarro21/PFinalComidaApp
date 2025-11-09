@@ -1,39 +1,33 @@
-// src/hooks/useOrder.ts
 import { useEffect, useState } from "react";
-import type { OrderItem } from "../types/order.types";
+import { useAuthContext } from "../context/AuthContext";
 import { OrderItemService } from "../services/api/OrderServiceApi";
+import type { OrderItem } from "../types/order.types";
 
-export function useOrder(orderId?: string) {
+export function useOrder(orderId: string) {
+  const { token } = useAuthContext();
   const [items, setItems] = useState<OrderItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchItems() {
+      if (!token) {
+        setError("No autenticado");
+        setLoading(false);
+        return;
+      }
       try {
         setLoading(true);
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          throw new Error("No token found");
-        }
-
-        const data = orderId
-          ? await OrderItemService.getOrderById(orderId, token)
-          : await OrderItemService.getAll(token);
-
+        const data = await OrderItemService.getOrderById(orderId, token);
         setItems(data);
-        setError(null);
       } catch (err) {
-        console.error(err);
-        setError("Failed to load order items");
+        setError("Error al cargar datos");
       } finally {
         setLoading(false);
       }
     }
-
     fetchItems();
-  }, [orderId]);
+  }, [orderId, token]);
 
   const total = items.reduce((sum, item) => sum + item.subtotal, 0);
 

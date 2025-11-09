@@ -1,11 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { RegisterForm } from "./RegisterForm";
-
-import * as MockService from "../../services/mock/AuthServiceMock";
-// import * as ApiService from "../../services/api/AuthServiceApi";
-
-const ActiveService = (MockService as any).AuthService;
-// const ActiveService = (ApiService as any).AuthService; // si querés API
+import { MockAuthProvider } from "../../mocks/mockAuthProvider";
 
 const meta: Meta<typeof RegisterForm> = {
   title: "Components/RegisterForm",
@@ -15,25 +10,20 @@ export default meta;
 
 type Story = StoryObj<typeof RegisterForm>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: () => (
+    <MockAuthProvider register={async () => Promise.resolve()}>
+      <RegisterForm />
+    </MockAuthProvider>
+  ),
+};
 
-export const Empty: Story = {
-  decorators: [
-    (StoryFn) => {
-      const originalRegister = ActiveService.register;
-
-      ActiveService.register = async () => {
-        console.log("Simulando error en registro (Empty mode)");
-        throw new Error("Error simulado en registro");
-      };
-
-      const story = <StoryFn />;
-
-      setTimeout(() => {
-        ActiveService.register = originalRegister;
-      }, 1500);
-
-      return story;
-    },
-  ],
+export const RegisterError: Story = {
+  render: () => (
+    <MockAuthProvider
+      register={async () => Promise.reject(new Error("Register failed"))}
+    >
+      <RegisterForm />
+    </MockAuthProvider>
+  ),
 };

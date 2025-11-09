@@ -1,60 +1,29 @@
+// src/services/api/OrderServiceApi.ts
 import type { OrderItem } from "../../types/order.types";
+import { fetchWithAuth } from "./fetchWithAuth";
 
 const API_BASE_URL = "http://localhost:3000";
 
 export const OrderItemService = {
-  async getAll(): Promise<OrderItem[]> {
-    const response = await fetch(`${API_BASE_URL}/order-items`);
+  async getAll(token: string): Promise<OrderItem[]> {
+    const response = await fetchWithAuth(`${API_BASE_URL}/order-items`, {}, token);
+
     if (!response.ok) {
-      throw new Error("Error al obtener los ítems de pedidos");
+      throw new Error("Error al obtener los ítems de pedido");
     }
-    return response.json();
+
+    const data: OrderItem[] = await response.json();
+    return data;
   },
 
-  async getOrderById(orderId: string): Promise<OrderItem[]> {
-    const response = await fetch(`${API_BASE_URL}/order-items/${orderId}`);
+  async getOrderById(orderId: string, token: string): Promise<OrderItem[]> {
+    const response = await fetchWithAuth(`${API_BASE_URL}/order-items/${orderId}`, {}, token);
+
     if (!response.ok) {
       throw new Error(`Error al obtener los ítems del pedido ${orderId}`);
     }
-    return response.json();
-  },
 
-  async create(item: OrderItem & { orderId: string }): Promise<OrderItem> {
-    const response = await fetch(`${API_BASE_URL}/order-items`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error al crear el ítem de pedido");
-    }
-
-    return response.json();
-  },
-
-  async update(id: string, item: Partial<OrderItem>): Promise<OrderItem> {
-    const response = await fetch(`${API_BASE_URL}/order-items/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(item),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error al actualizar el ítem de pedido");
-    }
-
-    return response.json();
-  },
-
-  async delete(id: string): Promise<void> {
-    const response = await fetch(`${API_BASE_URL}/order-items/${id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Error al eliminar el ítem de pedido");
-    }
+    const data: OrderItem[] = await response.json();
+    return data;
   },
 };
-

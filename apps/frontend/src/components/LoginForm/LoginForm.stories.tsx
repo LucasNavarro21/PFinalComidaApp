@@ -1,8 +1,7 @@
+// src/components/LoginForm/LoginForm.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import { LoginForm } from "./LoginForm";
-
-// import { AuthService } from "../../services/api/AuthServiceApi";
-import { AuthService } from "../../services/mock/AuthServiceMock";
+import { MockAuthProvider } from "../../mocks/mockAuthProvider";
 
 const meta: Meta<typeof LoginForm> = {
   title: "Components/LoginForm",
@@ -12,24 +11,18 @@ export default meta;
 
 type Story = StoryObj<typeof LoginForm>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: () => (
+    <MockAuthProvider>
+      <LoginForm />
+    </MockAuthProvider>
+  ),
+};
 
-
-export const Empty: Story = {
-  decorators: [
-    (StoryFn) => {
-      const originalLogin = AuthService.login;
-
-      AuthService.login = async () => null;
-
-      const story = <StoryFn />;
-
-
-      setTimeout(() => {
-        AuthService.login = originalLogin;
-      }, 1500);
-
-      return story;
-    },
-  ],
+export const LoginError: Story = {
+  render: () => (
+    <MockAuthProvider login={async () => Promise.reject(new Error("Invalid credentials"))}>
+      <LoginForm />
+    </MockAuthProvider>
+  ),
 };

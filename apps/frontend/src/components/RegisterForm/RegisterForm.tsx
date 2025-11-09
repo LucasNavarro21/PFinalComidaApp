@@ -1,14 +1,15 @@
 // src/components/RegisterForm/RegisterForm.tsx
-import React, { useState } from "react";
-import "./registerForm.css";
+import { useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
+import "./RegisterForm.css";
 
-import { AuthService } from "../../services/mock/AuthServiceMock";
-// import { AuthService } from "../../services/api/AuthServiceApi"; // futuro uso
+export const RegisterForm = () => {
+  const { register } = useAuthContext();
 
-export const RegisterForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -23,13 +24,11 @@ export const RegisterForm: React.FC = () => {
     }
 
     try {
-      const newUser = await AuthService.register(name, email, password);
-      if (newUser) {
-        setSuccess("Registro exitoso. ¡Bienvenido!");
-        setName("");
-        setEmail("");
-        setPassword("");
-      }
+      await register(name, email, password);
+      setSuccess("Registro exitoso. ¡Bienvenido!");
+      setName("");
+      setEmail("");
+      setPassword("");
     } catch (err) {
       setError("Error al registrar el usuario.");
     }

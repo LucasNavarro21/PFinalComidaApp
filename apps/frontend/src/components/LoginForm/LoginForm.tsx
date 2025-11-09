@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 import "./LoginForm.css";
-import { AuthService } from "../../services/mock/AuthServiceMock"; 
 
 export const LoginForm = () => {
+  const { login } = useAuthContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -13,22 +16,24 @@ export const LoginForm = () => {
     setError("");
     setSuccess("");
 
-    try {
-      const user = await AuthService.login(email, password);
+    if (!email || !password) {
+      setError("Todos los campos son obligatorios.");
+      return;
+    }
 
-      if (user) {
-        setSuccess(`Bienvenido, ${user.name}!`);
-      } else {
-        setError("Credenciales incorrectas.");
-      }
-    } catch {
-      setError("Error al iniciar sesión.");
+    try {
+      await login(email, password);
+      setSuccess("Inicio de sesión exitoso. ¡Bienvenido!");
+      setEmail("");
+      setPassword("");
+    } catch (err) {
+      setError("Error al iniciar sesión. Verifica tus credenciales.");
     }
   };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Iniciar sesión</h2>
+      <h2>Iniciar Sesión</h2>
 
       <input
         type="email"
