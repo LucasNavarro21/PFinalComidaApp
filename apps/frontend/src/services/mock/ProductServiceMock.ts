@@ -8,7 +8,7 @@ export const ProductService = {
     return mockProducts;
   },
 
-  async getProductsByRestaurant(restaurantId: number): Promise<Product[]> {
+  async getProductsByRestaurant(restaurantId: string): Promise<Product[]> {
     await new Promise((res) => setTimeout(res, 500));
     return mockProducts.filter((p) => p.restaurantId === restaurantId);
   },
