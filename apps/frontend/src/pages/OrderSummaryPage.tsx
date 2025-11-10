@@ -1,23 +1,45 @@
-import React from "react";
+// src/pages/OrderSummaryPage.tsx
+import { useEffect, useState } from "react";
 import { OrderSummary } from "../components/OrderSummary/OrderSummary";
-import type { CartItem } from "../types/cart.types";
+import type { OrderItem } from "../types/order.types";
+import { OrderItemService } from "../services/api/OrderServiceApi";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function OrderSummaryPage() {
-  const mockCart: CartItem[] = [
-    { id: 1, name: "Pizza Margherita", price: 1200, quantity: 2 },
-    { id: 2, name: "Hamburguesa", price: 900, quantity: 1 },
-  ];
+  const { token } = useAuthContext(); 
+  const [items, setItems] = useState<OrderItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const total = mockCart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  useEffect(() => {
+    const fetchOrderItems = async () => {
+      try {
+        if (!token) {
+          setError("No se encontró token de autenticación.");
+          return;
+        }
 
-  const handleBack = () => alert("Volver al carrito 🛒");
-  const handleConfirm = () => alert("Pedido confirmado ✅");
+        const data = await OrderItemService.getAll(token);
+        setItems(data);
+      } catch (err) {
+        console.error(err);
+        setError("Error al cargar los ítems del pedido.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrderItems();
+  }, [token]);
+
+  const total = items.reduce((acc, item) => acc + item.subtotal, 0);
 
   return (
-<OrderSummary
-  cartItems={mockCart} 
-  onCheckout={() => console.log("Checkout confirmado")} 
-/>
-
+    <OrderSummary
+      items={items}
+      total={total}
+      loading={loading}
+      error={error}
+    />
   );
 }

@@ -1,29 +1,47 @@
-import { useState, useEffect } from "react";
+// src/pages/RestaurantPage.tsx
+import { useEffect, useState } from "react";
 import { RestaurantList } from "../components/RestaurantList/RestaurantList";
-import { getRestaurants } from "../services/mock/RestaurantServiceMock";
-import type { Restaurant } from "../types/restaurant.types";
+import { Restaurant } from "../types/restaurant.types";
+import { RestaurantService } from "../services/api/RestaurantServiceApi";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function RestaurantPage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const { token } = useAuthContext(); 
 
   useEffect(() => {
-    async function loadRestaurants() {
-      const data = await getRestaurants();
-      setRestaurants(data);
-      setLoading(false);
-    }
-    loadRestaurants();
-  }, []);
+    const fetchRestaurants = async () => {
+      if (!token) {
+        setError("No hay token de autenticación.");
+        setLoading(false);
+        return;
+      }
 
-  if (loading) {
-    return <p style={{ textAlign: "center", marginTop: "80px" }}>Cargando restaurantes...</p>;
-  }
+      try {
+        setLoading(true);
+        const data = await RestaurantService.findAll(token);
+        setRestaurants(data);
+      } catch (err) {
+        console.error(err);
+        setError("Error al cargar los restaurantes.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurants();
+  }, [token]); 
+
+  if (loading) return <p>Cargando restaurantes...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h2 style={{ textAlign: "center" }}>Restaurantes disponibles</h2>
-      <RestaurantList />
+    <div className="restaurant-page">
+      <h1>Restaurantes</h1>
+      <RestaurantList restaurants={restaurants} />
     </div>
   );
 }

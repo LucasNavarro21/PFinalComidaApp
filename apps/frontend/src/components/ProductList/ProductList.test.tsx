@@ -6,7 +6,7 @@ import { mockProducts } from "../../mocks/product.mocks";
 describe("ProductList", () => {
   it("renders a list of ProductCard components", () => {
     render(<ProductList products={mockProducts} />);
-    const cards = screen.getAllByRole("img"); // todas las imágenes de productos
+    const cards = screen.getAllByRole("img"); 
     expect(cards.length).toBe(mockProducts.length);
   });
 });

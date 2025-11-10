@@ -1,13 +1,8 @@
 // src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import { AuthService } from "../services/api/AuthServiceApi"; 
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { AuthService } from "../services/api/AuthServiceApi";
+import type { User } from "../types/user.types";
 
 export interface AuthContextProps {
   user: User | null;
@@ -16,6 +11,7 @@ export interface AuthContextProps {
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  setAuthData: (user: User, token: string) => void; // ✅ agregamos esta función
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -36,12 +32,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [token]);
 
-  // 🔹 Login con API real
+  // ✅ Nueva función para setear manualmente los datos de auth (útil en tests o restaurar sesión)
+  const setAuthData = (user: User, token: string) => {
+    setUser(user);
+    setToken(token);
+    localStorage.setItem("token", token);
+  };
+
   const login = async (email: string, password: string) => {
     try {
       const { token, user } = await AuthService.login(email, password);
       setUser(user);
       setToken(token);
+      localStorage.setItem("token", token);
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
@@ -53,6 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const { token, user } = await AuthService.register(name, email, password);
       setUser(user);
       setToken(token);
+      localStorage.setItem("token", token);
     } catch (error) {
       console.error("Registration failed:", error);
       throw error;
@@ -74,6 +78,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         register,
         logout,
         isAuthenticated: !!token,
+        setAuthData, // ✅ incluida en el provider
       }}
     >
       {children}

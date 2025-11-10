@@ -1,40 +1,44 @@
-import { useState } from "react";
+// src/pages/CartPage.tsx
+import { useEffect, useState } from "react";
 import { Cart } from "../components/Cart/Cart";
-import type { Product } from "../types/product.types";
+import { CartService } from "../services/api/CartServiceApi";
+import { useAuthContext } from "../context/AuthContext";
+import type { CartItem } from "../types/cart.types";
 
 export default function CartPage() {
-  const [items, setItems] = useState<(Product & { quantity: number })[]>([
-    {
-      id: 1,
-      name: "Pizza Margherita",
-      description: "Pizza con salsa de tomate y mozzarella",
-      price: 1200,
-      image: "https://images.unsplash.com/photo-1601924582971-c8d2c0df7de7",
-      restaurantId: 1,
-      category: "Pizza",
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: "Hamburguesa Clásica",
-      description: "Carne, lechuga, tomate y queso",
-      price: 900,
-      image: "https://images.unsplash.com/photo-1550547660-d9450f859349",
-      restaurantId: 2,
-      category: "Burgers",
-      quantity: 1,
-    },
-  ]);
+  const { token } = useAuthContext();
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        if (!token) throw new Error("No token found");
+        const data = await CartService.getCart(token);
+        setItems(data);
+      } catch (err) {
+        setError("Error al cargar el carrito");
+      }
+    };
+
+    fetchCart();
+  }, [token]);
+
+  const handleRemove = async (id: number) => {
+    try {
+      if (!token) throw new Error("No token found");
+      await CartService.removeItem(id, token);
+      setItems((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      setError("Error al eliminar el producto");
+    }
+  };
+
+  if (error) return <p>{error}</p>;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        marginTop: "80px",
-      }}
-    >
-      <Cart initialItems={items} />
+    <div style={{ display: "flex", justifyContent: "center", marginTop: "80px" }}>
+      <Cart items={items} onRemove={handleRemove} />
     </div>
   );
 }
