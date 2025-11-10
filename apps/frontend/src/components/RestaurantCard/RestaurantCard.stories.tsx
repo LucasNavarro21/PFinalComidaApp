@@ -1,6 +1,7 @@
 // src/components/RestaurantList/RestaurantCard.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import { RestaurantCard } from "./RestaurantCard";
+import { mockRestaurants } from "../../mocks/restaurant.mock";
 
 const meta: Meta<typeof RestaurantCard> = {
   title: "Components/RestaurantCard",
@@ -10,12 +11,16 @@ const meta: Meta<typeof RestaurantCard> = {
 export default meta;
 type Story = StoryObj<typeof RestaurantCard>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: () => <RestaurantCard restaurant={mockRestaurants[0]} />,
+};
 
-export const Empty: Story = {
+export const Multiple: Story = {
   render: () => (
-    <div>
-      <p>No restaurants found.</p>
+    <div style={{ display: "flex", gap: "1rem" }}>
+      {mockRestaurants.map((restaurant) => (
+        <RestaurantCard key={restaurant.id} restaurant={restaurant} />
+      ))}
     </div>
   ),
 };

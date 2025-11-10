@@ -1,21 +1,7 @@
 export type RestaurantCategory = "Hamburguer" | "Italian" | "Asian" | "Vegan" | "Empanadas" | "Pizzas";
 
-export type Product = {
-  id: string;
-  name: string;
-  price: number;
-  description?: string;
-  status: "AVAILABLE" | "UNAVAILABLE";
-  restaurantId: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type Order = {
-  id: string;
-  total: number;
-  createdAt: string;
-};
+import { Order } from "./order.types"
+import { Product } from "./product.types"
 
 export type Restaurant = {
   id: string;

@@ -3,8 +3,8 @@ import type { Product } from "../types/product.types";
 
 export const mockProducts: Product[] = [
   {
-    id: 1,
-    restaurantId: 1,
+    id: "1",
+    restaurantId: "1",
     name: "Cheeseburger",
     description: "Jugosa hamburguesa con queso cheddar y papas fritas.",
     price: 2500,
@@ -12,8 +12,8 @@ export const mockProducts: Product[] = [
     category: "Hamburguesas",
   },
   {
-    id: 2,
-    restaurantId: 1,
+    id: "2",
+    restaurantId: "1",
     name: "Doble Bacon Burger",
     description: "Doble carne, doble queso y bacon crujiente.",
     price: 3200,
@@ -21,8 +21,8 @@ export const mockProducts: Product[] = [
     category: "Hamburguesas",
   },
   {
-    id: 3,
-    restaurantId: 2,
+    id: "3",
+    restaurantId: "2",
     name: "Pizza Margarita",
     description: "Mozzarella, tomate y albahaca fresca.",
     price: 2800,

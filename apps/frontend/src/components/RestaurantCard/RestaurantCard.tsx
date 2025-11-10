@@ -1,21 +1,19 @@
 // src/components/RestaurantList/RestaurantCard.tsx
 import "./RestaurantCard.css";
-import { useRestaurants } from "../../hooks/useRestaurant";
+import { Restaurant } from "../../types/restaurant.types";
 
-export function RestaurantCard() {
-  const { restaurants, loading, error } = useRestaurants();
+interface RestaurantCardProps {
+  restaurant: Restaurant;
+}
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
-  if (restaurants.length === 0) return <p>No restaurants found.</p>;
-
-  const restaurant = restaurants[0];
-
+export function RestaurantCard({ restaurant }: RestaurantCardProps) {
   return (
     <div className="restaurant-card">
       <img src={restaurant.image} alt={restaurant.name} />
-      <h3>{restaurant.name}</h3>
-      <p>{restaurant.category}</p>
+      <div className="restaurant-info">
+        <h3>{restaurant.name}</h3>
+        <p className="restaurant-category">{restaurant.category}</p>
+      </div>
     </div>
   );
 }

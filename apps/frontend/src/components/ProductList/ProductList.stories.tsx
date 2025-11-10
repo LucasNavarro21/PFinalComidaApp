@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { ProductList } from "./ProductList";
+import { mockProducts } from "../../mocks/product.mocks";
 
 const meta: Meta<typeof ProductList> = {
   title: "Components/ProductList",
@@ -9,12 +10,10 @@ const meta: Meta<typeof ProductList> = {
 export default meta;
 type Story = StoryObj<typeof ProductList>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  render: () => <ProductList products={mockProducts} />,
+};
 
 export const Empty: Story = {
-  render: () => (
-    <div>
-      <p>No products found.</p>
-    </div>
-  ),
+  render: () => <ProductList products={[]} />,
 };

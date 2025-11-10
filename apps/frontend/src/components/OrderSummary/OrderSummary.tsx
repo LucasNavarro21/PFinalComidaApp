@@ -1,12 +1,18 @@
+// OrderSummary.tsx
 import "./OrderSummary.css";
-import { useOrder } from "../../hooks/useOrder";
+import type { OrderItem } from "../../types/order.types";
 
-export function OrderSummary() {
-  const { items, total, loading, error } = useOrder();
+interface OrderSummaryProps {
+  items: OrderItem[];
+  total: number;
+  loading?: boolean;
+  error?: string | null;
+}
 
+export function OrderSummary({ items, total, loading = false, error = null }: OrderSummaryProps) {
   if (loading) return <p>Cargando resumen del pedido...</p>;
   if (error) return <p className="order-error">{error}</p>;
-  if (items.length === 0) return <p>No hay productos en el pedido.</p>;
+  if (!items || items.length === 0) return <p>No hay productos en el pedido.</p>;
 
   return (
     <div className="order-summary">

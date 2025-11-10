@@ -1,4 +1,3 @@
-// src/hooks/useProducts.ts
 import { useEffect, useState } from "react";
 import type { Product } from "../types/product.types";
 import { ProductService } from "../services/api/ProductServiceApi";
@@ -11,7 +10,7 @@ export function useProducts() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!token) return; // evita ejecutar sin token
+    if (!token) return; 
     setLoading(true);
 
     ProductService.findAll(token)

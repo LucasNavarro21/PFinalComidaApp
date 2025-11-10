@@ -1,25 +1,21 @@
-// src/components/ProductList/ProductList.tsx
-import React from "react";
-import "./productList.css";
+import "./ProductList.css";
+import { Product } from "../../types/product.types";
 import { ProductCard } from "../ProductCard/ProductCard";
-import { useProducts } from "../../hooks/useProduct";
 
 interface ProductListProps {
-  restaurantId: number;
+  products: Product[];
 }
 
-export const ProductList: React.FC<ProductListProps> = () => {
-  const { products, loading, error } = useProducts();
-
-  if (loading) return <p>Cargando productos...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!products.length) return <p>No hay productos disponibles.</p>;
+export function ProductList({ products }: ProductListProps) {
+  if (!products || products.length === 0) {
+    return <p>No products found.</p>;
+  }
 
   return (
-    <div className="product-list">
+    <div className="product-card-container">
       {products.map((product) => (
-        <ProductCard key={product.id} {...product} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
-};
+}

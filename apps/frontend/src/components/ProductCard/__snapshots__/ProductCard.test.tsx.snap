@@ -1,0 +1,32 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProductCard > matches snapshot 1`] = `
+<div>
+  <div
+    class="product-card"
+  >
+    <img
+      alt="Cheeseburger"
+      src="https://images.unsplash.com/photo-1550547660-d9450f859349"
+    />
+    <div
+      class="product-info"
+    >
+      <h3>
+        Cheeseburger
+      </h3>
+      <p
+        class="product-category"
+      >
+        Hamburguesas
+      </p>
+      <span
+        class="product-price"
+      >
+        $
+        2500
+      </span>
+    </div>
+  </div>
+</div>
+`;

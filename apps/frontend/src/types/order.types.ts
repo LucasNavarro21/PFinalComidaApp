@@ -17,7 +17,7 @@ export type OrderItem = {
 
 
 export type Order = {
-  id: number;
+  id: string;
   customerName: string;
   total: number;
   items: OrderItem[];
