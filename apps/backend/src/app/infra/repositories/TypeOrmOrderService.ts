@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../../infra/db/data-source";
-import { OrderEntity } from "../db/entities/OrderEntity";
-import type { Order, OrderStatus } from "../../../../../../domain/src/entities/Order.js";
-import type { OrderService } from "../../../../../../domain/src/services/OrderService.js";
+import { AppDataSource } from "../../infra/db/data-source.js";
+import { OrderEntity } from "../db/entities/OrderEntity.js";
+import type { Order, OrderStatus } from "@domain/entities/Order.js";
+import type { OrderService } from "@domain/services/OrderService.js";
 
 export class TypeOrmOrderService implements OrderService {
   private repository: Repository<OrderEntity>;

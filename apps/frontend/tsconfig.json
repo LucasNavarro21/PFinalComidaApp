@@ -1,18 +1,30 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
+
     "rootDir": "./src",
     "outDir": "./dist",
+
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node", "vitest/globals", "@testing-library/jest-dom"]
+
+    "types": [
+      "node",
+      "vitest/globals",
+      "@testing-library/jest-dom",
+      "vite/client"
+    ],
+
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["../../domain/src/*"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "../../domain" }]
+
+  "include": ["src", "vite-env.d.ts"]
 }

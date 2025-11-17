@@ -2,7 +2,8 @@
 import type { Product } from "../../types/product.types";
 import { fetchWithAuth } from "./fetchWithAuth";
 
-const BASE_URL = "http://localhost:3000/products";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 export const ProductService = {
   async findAll(token: string): Promise<Product[]> {

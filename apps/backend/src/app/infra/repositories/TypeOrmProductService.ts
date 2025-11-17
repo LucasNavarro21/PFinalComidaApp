@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
-import type { ProductService } from "../../../../../../domain/src/services/ProductService";
-import type { Product, ProductStatus } from "../../../../../../domain/src/entities/Product";
-import { ProductEntity } from "../db/entities/ProductEntity";
+import type { ProductService } from "@domain/services/ProductService.js";
+import type { Product, ProductStatus } from "@domain/entities/Product.js";
+import { ProductEntity } from "../db/entities/ProductEntity.js";
 
 export class TypeOrmProductService implements ProductService {
   constructor(private readonly productRepository: Repository<ProductEntity>) {}

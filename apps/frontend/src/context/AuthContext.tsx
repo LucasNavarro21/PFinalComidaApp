@@ -11,7 +11,7 @@ export interface AuthContextProps {
   register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
-  setAuthData: (user: User, token: string) => void; // ✅ agregamos esta función
+  setAuthData: (user: User, token: string) => void; 
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -32,7 +32,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [token]);
 
-  // ✅ Nueva función para setear manualmente los datos de auth (útil en tests o restaurar sesión)
   const setAuthData = (user: User, token: string) => {
     setUser(user);
     setToken(token);
@@ -78,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         register,
         logout,
         isAuthenticated: !!token,
-        setAuthData, // ✅ incluida en el provider
+        setAuthData, 
       }}
     >
       {children}

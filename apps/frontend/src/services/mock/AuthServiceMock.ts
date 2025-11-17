@@ -23,7 +23,7 @@ export const AuthService = {
       }
 
       const newUser: User = {
-        id: mockUsers.length + 1,
+        id: String(mockUsers.length + 1),
         name,
         email,
         password,

@@ -4,15 +4,25 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Node",
+
     "rootDir": "./src",
     "outDir": "./dist",
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["../../domain/dist/*"]
+    }
   },
-  "include": ["src", "../../domain/src/utils/types/jwt.ts"],
-  "references": [{ "path": "../../domain" }]
+  "include": ["src"],
+  "references": [
+    { "path": "../../domain" }
+  ]
 }

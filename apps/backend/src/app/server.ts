@@ -1,13 +1,13 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config();
-import { AppDataSource } from "../app/infra/db/data-source";
+import { AppDataSource } from "../app/infra/db/data-source.js";
 import express from "express";
-import userRoutes from "./routes/UserRoutes";
-import productRoutes from "./routes/ProductRoutes";
+import userRoutes from "./routes/UserRoutes.js";
+import productRoutes from "./routes/ProductRoutes.js";
 import restaurantRoutes from "./routes/RestaurantRoutes.js";
 import orderRoutes from "./routes/OrderRoutes.js";
-import orderItemRoutes from "./routes/OrderItemRoutes";
+import orderItemRoutes from "./routes/OrderItemRoutes.js";
 import cors from "cors";
 
 

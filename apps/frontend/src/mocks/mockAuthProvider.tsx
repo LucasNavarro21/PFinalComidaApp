@@ -15,24 +15,30 @@ export const MockAuthProvider = ({
   login = async () => Promise.resolve(),
   register = async () => Promise.resolve(),
 }: MockAuthProviderProps) => {
-  const [user, setUser] = useState<{ id: number; name: string; email: string } | null>(null);
+
+  const [user, setUser] = useState<{ id: string; name: string; email: string } | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   const mockLogin = async (email: string, password: string) => {
     await login(email, password);
-    setUser({ id: 1, name: "Mock User", email });
+    setUser({ id: "1", name: "Mock User", email });
     setToken("mock-token");
   };
 
   const mockRegister = async (name: string, email: string, password: string) => {
     await register(name, email, password);
-    setUser({ id: 1, name, email });
+    setUser({ id: "1", name, email });
     setToken("mock-token");
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
+  };
+
+  const setAuthData = (user: any, token: string) => {
+    setUser(user);
+    setToken(token);
   };
 
   const contextValue: AuthContextProps = {
@@ -42,6 +48,7 @@ export const MockAuthProvider = ({
     register: mockRegister,
     logout,
     isAuthenticated: !!token,
+    setAuthData, 
   };
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;

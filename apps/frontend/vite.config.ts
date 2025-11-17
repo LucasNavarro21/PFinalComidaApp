@@ -13,37 +13,43 @@ const dirname =
 
 export default defineConfig({
   plugins: [react()],
+
+  resolve: {
+    alias: {
+      "@domain": path.resolve(dirname, "../../domain/src"),
+    },
+  },
+
   test: {
     globals: true,
     environment: "jsdom",
 
-projects: [
-  {
-    test: {
-      include: ["src/**/*.test.@(js|jsx|ts|tsx)"],
-      globals: true,
-      environment: "jsdom",
-    }
-  },
-  {
-    extends: true,
-    plugins: [
-      storybookTest({
-        configDir: path.join(dirname, ".storybook"),
-      }),
-    ],
-    test: {
-      include: ["src/**/*.stories.@(js|jsx|ts|tsx)"],
-      browser: {
-        enabled: true,
-        headless: true,
-        provider: playwright({}),
-        instances: [{ browser: "chromium" }],
+    projects: [
+      {
+        test: {
+          include: ["src/**/*.test.@(js|jsx|ts|tsx)"],
+          globals: true,
+          environment: "jsdom",
+        },
       },
-      setupFiles: [".storybook/vitest.setup.ts"],
-    },
-  },
-],
-
+      {
+        extends: true,
+        plugins: [
+          storybookTest({
+            configDir: path.join(dirname, ".storybook"),
+          }),
+        ],
+        test: {
+          include: ["src/**/*.stories.@(js|jsx|ts|tsx)"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [{ browser: "chromium" }],
+          },
+          setupFiles: [".storybook/vitest.setup.ts"],
+        },
+      },
+    ],
   },
 });

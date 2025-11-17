@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../infra/db/data-source";
-import { OrderEntity } from "../infra/db/entities/OrderEntity";
-import { OrderItemEntity } from "../infra/db/entities/OrderItem.entity";
-import { ProductEntity } from "../infra/db/entities/ProductEntity";
-import { UserEntity } from "../infra/db/entities/UserEntity";
-import { RestaurantEntity } from "../infra/db/entities/RestaurantEntity";
+import { AppDataSource } from "../infra/db/data-source.js";
+import { OrderEntity } from "../infra/db/entities/OrderEntity.js";
+import { OrderItemEntity } from "../infra/db/entities/OrderItem.entity.js";
+import { ProductEntity } from "../infra/db/entities/ProductEntity.js";
+import { UserEntity } from "../infra/db/entities/UserEntity.js";
+import { RestaurantEntity } from "../infra/db/entities/RestaurantEntity.js";
 
 export class OrderController {
   private orderRepository = AppDataSource.getRepository(OrderEntity);

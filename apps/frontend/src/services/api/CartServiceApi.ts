@@ -2,7 +2,7 @@
 import type { CartItem } from "../../types/cart.types";
 import { fetchWithAuth } from "./fetchWithAuth";
 
-const BASE_URL = "http://localhost:3000/cart";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const CartService = {
   async getCart(token: string): Promise<CartItem[]> {

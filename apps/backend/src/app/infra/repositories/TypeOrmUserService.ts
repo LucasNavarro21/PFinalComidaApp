@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { UserEntity } from "../db/entities/UserEntity.js";
-import type { UserService } from "../../../../../../domain/src/services/UserService.js";
-import type { User } from "../../../../../../domain/src/entities/User.js";
+import type { UserService } from "@domain/services/UserService.js";
+import type { User } from "@domain/entities/User.js";
 
 export class TypeOrmUserService implements UserService {
   constructor(private readonly userRepository: Repository<UserEntity>) {}

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { RegisterUser } from "../../../../../domain/src/use-cases/User/RegisterUser";
-import { LoginUser } from "../../../../../domain/src/use-cases/User/LoginUser";
-import { TypeOrmUserService } from "../infra/repositories/TypeOrmUserService";
-import { generarToken, verificarToken } from "../../../../../domain/src/utils/types/jwt.js";
-import { AppDataSource } from "../infra/db/data-source";
-import { UserEntity } from "../infra/db/entities/UserEntity";
+import { RegisterUser } from "@domain/use-cases/User/RegisterUser.js";
+import { LoginUser } from "@domain/use-cases/User/LoginUser.js";
+import { TypeOrmUserService } from "../infra/repositories/TypeOrmUserService.js";
+import { generarToken, verificarToken } from "@domain/utils/types/jwt.js";
+import { AppDataSource } from "../infra/db/data-source.js";
+import { UserEntity } from "../infra/db/entities/UserEntity.js";
 
 const userRepository = AppDataSource.getRepository(UserEntity);
 const userService = new TypeOrmUserService(userRepository);

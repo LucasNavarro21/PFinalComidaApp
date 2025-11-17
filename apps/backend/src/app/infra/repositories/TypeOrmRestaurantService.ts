@@ -1,8 +1,8 @@
-import { AppDataSource } from "../../infra/db/data-source";
+import { AppDataSource } from "../../infra/db/data-source.js";
 import { RestaurantEntity } from "../../infra/db/entities/RestaurantEntity.js";
-import { Restaurant, RestaurantCategory } from "../../../../../../domain/src/entities/Restaurant.js";
+import { Restaurant, RestaurantCategory } from "@domain/entities/Restaurant.js";
 import { Repository } from "typeorm";
-import { ProductStatus } from "../../../../../../domain/src/entities/Product";
+import { ProductStatus } from "@domain/entities/Product.js";
 
 export class TypeOrmRestaurantService {
   private repository: Repository<RestaurantEntity>;

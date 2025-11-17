@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { OrderEntity } from "./OrderEntity.js";
 import bcrypt from "bcrypt";
 
 export enum UserRole {
@@ -34,8 +33,8 @@ export class UserEntity {
   @Column({ type: "varchar", default: UserStatus.ACTIVE })
   status!: UserStatus;
 
-  @OneToMany(() => OrderEntity, (order) => order.user)
-  orders!: OrderEntity[];
+  @OneToMany("OrderEntity", "user")
+  orders!: any[];  
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;

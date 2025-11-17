@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { restaurantService } from "../infra/repositories/TypeOrmRestaurantService";
-import { RestaurantCategory } from "../../../../../domain/src/entities/Restaurant"; 
+import { restaurantService } from "../infra/repositories/TypeOrmRestaurantService.js";
+import { RestaurantCategory } from "@domain/entities/Restaurant.js"; 
 
 export const restaurantController = {
   getAll: async (_req: Request, res: Response) => {

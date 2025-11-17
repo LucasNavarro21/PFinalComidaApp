@@ -2,7 +2,7 @@
 import type { OrderItem } from "../../types/order.types";
 import { fetchWithAuth } from "./fetchWithAuth";
 
-const API_BASE_URL = "http://localhost:3000";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const OrderItemService = {
   async getAll(token: string): Promise<OrderItem[]> {

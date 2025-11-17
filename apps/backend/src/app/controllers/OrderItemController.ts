@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { AppDataSource } from "../infra/db/data-source";
+import { AppDataSource } from "../infra/db/data-source.js";
 import { OrderItemEntity } from "../infra/db/entities/OrderItem.entity.js";
 import { ProductEntity } from "../infra/db/entities/ProductEntity.js";
 import { OrderEntity } from "../infra/db/entities/OrderEntity.js";

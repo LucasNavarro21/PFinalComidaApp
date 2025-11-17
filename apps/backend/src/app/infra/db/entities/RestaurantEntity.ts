@@ -1,7 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { RestaurantCategory } from "../../../../../../../domain/src/entities/Restaurant"; // importás desde el dominio
-import { ProductEntity } from "./ProductEntity.js";
-import { OrderEntity } from "./OrderEntity.js";
+import { RestaurantCategory } from "@domain/entities/Restaurant.js";
 
 @Entity({ name: "restaurants" })
 export class RestaurantEntity {
@@ -23,11 +21,11 @@ export class RestaurantEntity {
   @Column({ type: "float", default: 0 })
   rating!: number;
 
-  @OneToMany(() => ProductEntity, (product) => product.restaurant)
-  products!: ProductEntity[];
+  @OneToMany("ProductEntity", "restaurant")
+  products!: any[];  // ProductEntity[]
 
-  @OneToMany(() => OrderEntity, (order) => order.restaurant)
-  orders!: OrderEntity[];
+  @OneToMany("OrderEntity", "restaurant")
+  orders!: any[];  // OrderEntity[]
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;

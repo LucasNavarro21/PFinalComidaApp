@@ -1,6 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { OrderEntity } from "./OrderEntity.js";
-import { ProductEntity } from "./ProductEntity.js";
 
 @Entity({ name: "order_items" })
 export class OrderItemEntity {
@@ -28,11 +26,11 @@ export class OrderItemEntity {
   @UpdateDateColumn({ type: "timestamp" })
     updatedAt!: Date;
 
-  @ManyToOne(() => OrderEntity, (order) => order.items, { onDelete: "CASCADE" })
+  @ManyToOne("OrderEntity", "items", { onDelete: "CASCADE" })
   @JoinColumn({ name: "orderId" })
-  order!: OrderEntity;
+  order!: any;  // OrderEntity;
 
-  @ManyToOne(() => ProductEntity, { eager: true })
+  @ManyToOne("ProductEntity", { eager: true })
   @JoinColumn({ name: "productId" })
-  product!: ProductEntity;
+  product!: any;  // ProductEntity;
 }

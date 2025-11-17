@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { AccessProtectedFeature } from "../../../../../domain/src/use-cases/AccessProtectedFeature.js";
-import { UserRole } from "../../../../../domain/src/entities/User.js"; 
+import { AccessProtectedFeature } from "@domain/use-cases/AccessProtectedFeature.js";
+import { UserRole } from "@domain/entities/User.js"; 
 
 dotenv.config();
 

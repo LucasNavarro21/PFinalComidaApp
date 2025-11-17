@@ -1,0 +1,57 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: pedidos_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pedidos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pedidos_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - pedidos_net
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend-container.dockerfile
+    container_name: pedidos_backend
+    restart: unless-stopped
+    env_file: ./apps/backend/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - pedidos_net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend-container.dockerfile
+    container_name: pedidos_frontend
+    restart: unless-stopped
+    env_file: ./apps/frontend/.env
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - pedidos_net
+
+volumes:
+  pedidos_db_data:
+
+networks:
+  pedidos_net:
+    driver: bridge

@@ -1,22 +1,21 @@
 {
-  "name": "pedidoscomida",
+  "name": "@domain",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "test": "vitest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "exports": {
+    "./entities": "./dist/entities/index.js"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.7.2",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "jsonwebtoken": "^9.0.2"
   }
 }
