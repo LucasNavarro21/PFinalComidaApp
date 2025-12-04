@@ -1,4 +1,3 @@
-// src/use-cases/Order/UpdateOrderStatus.ts
 import type { Order } from "../../entities/Order.js";
 import type { OrderService } from "../../services/OrderService.js";
 

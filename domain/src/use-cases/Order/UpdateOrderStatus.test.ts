@@ -1,4 +1,3 @@
-// src/use-cases/Order/UpdateOrderStatus.test.ts
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import type { Order } from "../../entities/Order.js";
 import type { OrderService } from "../../services/OrderService.js";

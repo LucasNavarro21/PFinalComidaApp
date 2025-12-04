@@ -6,11 +6,13 @@ export const mockUsers: User[] = [
     name: "Lucas Navarro",
     email: "lucas@example.com",
     password: "123456", 
+    role: "ADMIN"
   },
   {
     id: "2",
     name: "Ana Pérez",
     email: "ana@example.com",
     password: "password",
+    role: "ADMIN"
   },
 ];

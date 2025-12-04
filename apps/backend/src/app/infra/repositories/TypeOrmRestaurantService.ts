@@ -1,6 +1,11 @@
+// infra/repositories/TypeOrmRestaurantService.ts
 import { AppDataSource } from "../../infra/db/data-source.js";
 import { RestaurantEntity } from "../../infra/db/entities/RestaurantEntity.js";
-import { Restaurant, RestaurantCategory } from "@domain/entities/Restaurant.js";
+import {
+  Restaurant,
+  RestaurantCategory,
+  CreateRestaurantInput,
+} from "@domain/entities/Restaurant.js";
 import { Repository } from "typeorm";
 import { ProductStatus } from "@domain/entities/Product.js";
 
@@ -18,40 +23,31 @@ export class TypeOrmRestaurantService {
       address: entity.address,
       phone: entity.phone,
       category: entity.category,
+      ownerId: entity.ownerId,
       rating: entity.rating,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-        products: entity.products?.map(p => ({
+
+      products: entity.products?.map(p => ({
         id: p.id,
         name: p.name,
         price: p.price,
         description: p.description,
-  status: p.status as ProductStatus, 
+        status: p.status as ProductStatus,
         restaurantId: entity.id,
         createdAt: p.createdAt,
         updatedAt: p.updatedAt,
-        })),
+      })),
+
       orders: entity.orders?.map(o => ({
         id: o.id,
         total: o.total,
-        createdAt: o.createdAt
-      }))
+        createdAt: o.createdAt,
+      })),
     };
   }
 
-  private toEntity(domain: Restaurant): RestaurantEntity {
-    const entity = new RestaurantEntity();
-    entity.id = domain.id;
-    entity.name = domain.name;
-    entity.address = domain.address;
-    entity.phone = domain.phone;
-    entity.category = domain.category;
-    entity.rating = domain.rating;
-
-    return entity;
-  }
-
-  async create(data: Omit<Restaurant, "id" | "rating">): Promise<Restaurant> {
+  async create(data: CreateRestaurantInput): Promise<Restaurant> {
     const entity = this.repository.create({
       ...data,
       rating: 0,
@@ -65,7 +61,7 @@ export class TypeOrmRestaurantService {
     const restaurants = await this.repository.find({
       relations: ["products", "orders"],
     });
-    return restaurants.map(this.toDomain);
+    return restaurants.map(r => this.toDomain(r));
   }
 
   async findById(id: string): Promise<Restaurant | null> {
@@ -87,16 +83,17 @@ export class TypeOrmRestaurantService {
   }
 
   async findByCategory(category: RestaurantCategory): Promise<Restaurant[]> {
-  const restaurants = await this.repository.find({
-    where: { category },
-    relations: ["products", "orders"],
-  });
-  return restaurants.map(r => this.toDomain(r));
-}
+    const restaurants = await this.repository.find({
+      where: { category },
+      relations: ["products", "orders"],
+    });
+    return restaurants.map(r => this.toDomain(r));
+  }
 
   async delete(id: string): Promise<boolean> {
     const result = await this.repository.delete(id);
     return result.affected! > 0;
   }
 }
+
 export const restaurantService = new TypeOrmRestaurantService();

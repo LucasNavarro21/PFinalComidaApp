@@ -52,7 +52,7 @@ describe("AuthServiceApi", () => {
       json: () => Promise.resolve(mockResponse),
     });
 
-    const result = await AuthService.register("Lucas", "lucas@new.com", "123456");
+    const result = await AuthService.register("Lucas", "lucas@new.com", "123456", "CUSTOMER");
 
     expect(mockFetch).toHaveBeenCalledWith(`${API_BASE_URL}/auth/register`, {
       method: "POST",
@@ -66,7 +66,7 @@ describe("AuthServiceApi", () => {
     mockFetch.mockResolvedValueOnce({ ok: false });
 
     await expect(
-      AuthService.register("Lucas", "lucas@new.com", "123456")
+      AuthService.register("Lucas", "lucas@new.com", "123456", "CUSTOMER")
     ).rejects.toThrow("Registration failed");
   });
 });

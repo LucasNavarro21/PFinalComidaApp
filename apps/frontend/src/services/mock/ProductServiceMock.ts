@@ -1,4 +1,3 @@
-// src/services/mock/ProductServiceMock.ts
 import type { Product } from "../../types/product.types";
 import { mockProducts } from "../../mocks/product.mocks";
 

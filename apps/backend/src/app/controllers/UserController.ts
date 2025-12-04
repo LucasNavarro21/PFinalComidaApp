@@ -16,7 +16,7 @@ export const userController = {
   register: async (req: Request, res: Response) => {
     const { name, email, password, role } = req.body;
     try {
-      const user = await registerUser.execute({ name, email, password, role });
+      const user = await registerUser.execute({ name, email, password, role: role ?? "CUSTOMER" });
       const token = generarToken({ id: user.id, role: user.role });
 
       res

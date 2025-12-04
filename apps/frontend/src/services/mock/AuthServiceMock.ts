@@ -27,6 +27,7 @@ export const AuthService = {
         name,
         email,
         password,
+        role: "CUSTOMER"
       };
 
       mockUsers.push(newUser);

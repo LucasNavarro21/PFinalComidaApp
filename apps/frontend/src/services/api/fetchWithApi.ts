@@ -1,4 +1,3 @@
-// src/services/api/fetchWithAuth.ts
 import { useAuthContext } from "../../context/AuthContext";
 
 export async function fetchWithAuth(

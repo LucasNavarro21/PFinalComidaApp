@@ -45,7 +45,7 @@ describe("ProductServiceApi", () => {
       json: () => Promise.resolve(mockProducts),
     });
 
-    const result = await ProductService.getProductsByRestaurant(10, mockToken);
+    const result = await ProductService.getProductsByRestaurant("10", mockToken);
 
     expect(fetchWithAuth).toHaveBeenCalledWith(
       "http://localhost:3000/products?restaurantId=10",
@@ -59,7 +59,7 @@ describe("ProductServiceApi", () => {
     (fetchWithAuth as any).mockResolvedValueOnce({ ok: false });
 
     await expect(
-      ProductService.getProductsByRestaurant(10, mockToken)
+      ProductService.getProductsByRestaurant("10", mockToken)
     ).rejects.toThrow("Failed to fetch products by restaurant");
   });
 });

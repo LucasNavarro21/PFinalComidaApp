@@ -10,10 +10,13 @@ router.get("/", (req, res) => controller.getAll(req, res));
 
 router.get("/:id", (req, res) => controller.getById(req, res));
 
-router.post("/", authMiddleware(UserRole.ADMIN), (req, res) => controller.create(req, res));
+// RESTAURANT_OWNER y ADMIN pueden crear productos (ADMIN es superior en jerarquía)
+router.post("/", authMiddleware(UserRole.RESTAURANT_OWNER), (req, res) => controller.create(req, res));
 
-router.put("/:id", authMiddleware(UserRole.ADMIN), (req, res) => controller.update(req, res));
+// RESTAURANT_OWNER y ADMIN pueden actualizar productos
+router.put("/:id", authMiddleware(UserRole.RESTAURANT_OWNER), (req, res) => controller.update(req, res));
 
-router.delete("/:id", authMiddleware(UserRole.ADMIN), (req, res) => controller.delete(req, res));
+// RESTAURANT_OWNER y ADMIN pueden eliminar productos
+router.delete("/:id", authMiddleware(UserRole.RESTAURANT_OWNER), (req, res) => controller.delete(req, res));
 
 export default router;

@@ -1,17 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import bcrypt from "bcrypt";
-
-export enum UserRole {
-  CUSTOMER = "CUSTOMER",
-  RESTAURANT_OWNER = "RESTAURANT_OWNER",
-  DELIVERY_PERSON = "DELIVERY_PERSON",
-  ADMIN = "ADMIN",
-}
-
-export enum UserStatus {
-  ACTIVE = "ACTIVE",
-  INACTIVE = "INACTIVE",
-}
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { UserRole, UserStatus } from "@domain/entities/User.js";
 
 @Entity({ name: "users" })
 export class UserEntity {
@@ -34,7 +22,10 @@ export class UserEntity {
   status!: UserStatus;
 
   @OneToMany("OrderEntity", "user")
-  orders!: any[];  
+  orders!: any[];
+
+  @OneToMany("RestaurantEntity", "owner")
+  restaurants!: any[];
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;

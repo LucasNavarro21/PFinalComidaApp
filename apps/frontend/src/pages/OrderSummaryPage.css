@@ -1,0 +1,106 @@
+.order-summary-page {
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+.order-summary-page h1 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.error-message {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  color: #d32f2f;
+}
+
+.error-message p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-back {
+  padding: 0.75rem 1.5rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  background-color: #1565c0;
+}
+
+.order-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-direction: column;
+}
+
+.btn-confirm {
+  padding: 1rem 1.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.btn-confirm:hover:not(:disabled) {
+  background-color: #45a049;
+  transform: scale(1.02);
+}
+
+.btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-confirm:active {
+  transform: scale(0.98);
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.5rem;
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-cancel:hover {
+  background-color: #f57c00;
+}
+
+@media (max-width: 600px) {
+  .order-summary-page {
+    padding: 1rem;
+    margin-top: 60px;
+  }
+
+  .order-summary-page h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .order-actions {
+    flex-direction: column;
+  }
+}

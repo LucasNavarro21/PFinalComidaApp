@@ -1,0 +1,41 @@
+
+.restaurant-form {
+  width: 400px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #000000;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.restaurant-form h2 {
+  text-align: center;
+}
+
+.restaurant-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.restaurant-form input {
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+.restaurant-form button {
+  background: #b45824;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.restaurant-form button:hover {
+  background: #893708;
+}

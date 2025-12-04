@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({ name: "products" })
 export class ProductEntity {
@@ -17,14 +17,20 @@ export class ProductEntity {
   @Column({ type: "varchar" })
   restaurantId!: string;
 
-  @Column({ type: "varchar",   default: "AVAILABLE"})
+  @Column({ type: "varchar", nullable: true })
+  category?: string;
+
+  @Column({ type: "varchar", nullable: true })
+  image?: string;
+
+  @Column({ type: "varchar", default: "AVAILABLE" })
   status!: string;
 
   @ManyToOne("RestaurantEntity", "products")
-  restaurant!: any;  // RestaurantEntity
+  restaurant!: any;
 
   @OneToMany("OrderItemEntity", "product")
-  orderItems!: any[];  // OrderItemEntity[]
+  orderItems!: any[];
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;

@@ -14,23 +14,23 @@ export class OrderItemEntity {
   @Column({ type: "int" })
   quantity!: number;
 
-  @Column({ type: "float" , default: 0})
+  @Column({ type: "float", default: 0 })
   unitPrice!: number;
 
   @Column({ type: "float" })
   subtotal!: number;
 
-  @CreateDateColumn({ type: "timestamp" })
-    createdAt!: Date;
-  
-  @UpdateDateColumn({ type: "timestamp" })
-    updatedAt!: Date;
-
   @ManyToOne("OrderEntity", "items", { onDelete: "CASCADE" })
   @JoinColumn({ name: "orderId" })
-  order!: any;  // OrderEntity;
+  order!: any;
 
-  @ManyToOne("ProductEntity", { eager: true })
+  @ManyToOne("ProductEntity", "orderItems", { eager: true })
   @JoinColumn({ name: "productId" })
-  product!: any;  // ProductEntity;
+  product!: any;
+
+  @CreateDateColumn({ type: "timestamp" })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ type: "timestamp" })
+  updatedAt!: Date;
 }

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { restaurantService } from "../infra/repositories/TypeOrmRestaurantService.js";
-import { RestaurantCategory } from "@domain/entities/Restaurant.js"; 
+import { RestaurantCategory } from "@domain/entities/Restaurant.js";
+import { UserRole } from "@domain/entities/User.js";
 
 export const restaurantController = {
   getAll: async (_req: Request, res: Response) => {
@@ -47,20 +48,36 @@ export const restaurantController = {
 
   create: async (req: Request, res: Response) => {
     try {
-      const { name, category, address, phone, createdAt, updatedAt } = req.body;
+      const { name, address, phone, category, ownerId: bodyOwnerId } = req.body;
 
-      if (!Object.values(RestaurantCategory).includes(category as RestaurantCategory)) {
-        return res.status(400).json({ message: "Categoría inválida" });
+      if (!name || !address) {
+        return res.status(400).json({ message: "Faltan campos obligatorios: name y address" });
       }
 
-      const restaurant = await restaurantService.create({
+      const finalCategory = category && Object.values(RestaurantCategory).includes(category)
+        ? category
+        : RestaurantCategory.FAST_FOOD;
+
+      const finalPhone = phone ?? "";
+
+    
+      const requesterRole = (req as any).user?.role;
+      let ownerId: string | undefined;
+      if (requesterRole === (UserRole as any).ADMIN) {
+        ownerId = bodyOwnerId ?? (req as any).user?.id;
+      } else {
+        ownerId = (req as any).user?.id;
+      }
+
+      const createPayload: any = {
         name,
-        category: category as RestaurantCategory,
         address,
-        phone,
-        createdAt,
-        updatedAt,
-      });
+        phone: finalPhone,
+        category: finalCategory,
+      };
+      if (ownerId) createPayload.ownerId = ownerId;
+
+      const restaurant = await restaurantService.create(createPayload);
 
       res.status(201).json(restaurant);
     } catch (error) {
@@ -72,16 +89,17 @@ export const restaurantController = {
   update: async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const { name, category, address } = req.body;
+      const { name, category, address, phone } = req.body;
 
-      if (category && !Object.values(RestaurantCategory).includes(category as RestaurantCategory)) {
+      if (category && !Object.values(RestaurantCategory).includes(category)) {
         return res.status(400).json({ message: "Categoría inválida" });
       }
 
-        const updated = await restaurantService.update(id, {
+      const updated = await restaurantService.update(id, {
         name,
-        category: category as RestaurantCategory,
+        category,
         address,
+        phone,
       });
 
       if (!updated) {

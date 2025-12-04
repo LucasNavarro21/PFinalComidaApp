@@ -1,4 +1,3 @@
-// src/pages/LoginPage.tsx
 import { useState } from "react";
 import { LoginForm } from "../components/LoginForm/LoginForm";
 

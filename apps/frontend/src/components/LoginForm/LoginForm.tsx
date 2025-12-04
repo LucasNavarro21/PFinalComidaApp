@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./LoginForm.css";
 
 export const LoginForm = () => {
-  const { login } = useAuthContext();
+  const { login, user } = useAuthContext();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,8 +24,19 @@ export const LoginForm = () => {
     }
 
     try {
-      await login(email, password);
+      const result = await login(email, password);
       setSuccess("Inicio de sesión exitoso. ¡Bienvenido!");
+
+      const role = result?.user?.role;
+
+      if (role === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else if (role === "RESTAURANT_OWNER") {
+        navigate("/owner/dashboard");
+      } else {
+        navigate("/home");
+      }
+
       setEmail("");
       setPassword("");
     } catch (err) {

@@ -1,4 +1,3 @@
-// src/pages/RestaurantPage.tsx
 import { useEffect, useState } from "react";
 import { RestaurantList } from "../components/RestaurantList/RestaurantList";
 import { Restaurant } from "../types/restaurant.types";

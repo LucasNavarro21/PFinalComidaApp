@@ -2,12 +2,10 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { useRestaurants } from "../hooks/useRestaurant";
 
-// mock del contexto
 vi.mock("../context/AuthContext", () => ({
   useAuthContext: () => ({ token: "fake-token" }),
 }));
 
-// mock del servicio
 vi.mock("../services/api/RestaurantServiceApi", () => ({
   RestaurantService: {
     findAll: vi.fn(),

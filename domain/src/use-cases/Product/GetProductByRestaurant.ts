@@ -1,4 +1,3 @@
-// usecases/GetProductsByRestaurant.ts
 import type { Product } from "../../entities/Product.js";
 import type { ProductService } from "../../services/ProductService.js";
 

@@ -9,13 +9,13 @@ export class OrderEntity {
   userId!: string;
 
   @ManyToOne("UserEntity", "orders")
-  user!: any;  // UserEntity
+  user!: any;
 
   @Column({ type: "uuid" })
   restaurantId!: string;
 
   @ManyToOne("RestaurantEntity", "orders")
-  restaurant!: any;  // RestaurantEntity
+  restaurant!: any;
 
   @Column({ type: "float", default: 0 })
   total!: number;
@@ -24,7 +24,7 @@ export class OrderEntity {
   status!: string;
 
   @OneToMany("OrderItemEntity", "order", { cascade: true })
-  items!: any[];  // OrderItemEntity[]
+  items!: any[];
 
   @CreateDateColumn({ type: "timestamp" })
   createdAt!: Date;

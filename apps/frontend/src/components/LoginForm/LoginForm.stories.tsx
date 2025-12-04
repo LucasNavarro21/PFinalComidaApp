@@ -21,7 +21,9 @@ export const Default: Story = {
 
 export const LoginError: Story = {
   render: () => (
-    <MockAuthProvider login={async () => Promise.reject(new Error("Invalid credentials"))}>
+    <MockAuthProvider login={async () => {
+      throw new Error("Invalid credentials");
+    }}>
       <LoginForm />
     </MockAuthProvider>
   ),

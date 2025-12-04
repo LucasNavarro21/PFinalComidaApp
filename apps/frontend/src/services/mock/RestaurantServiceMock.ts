@@ -1,4 +1,3 @@
-// src/services/mock/RestaurantServiceMock.ts
 import type { Restaurant } from "../../types/restaurant.types";
 import { mockRestaurants } from "../../mocks/restaurant.mock";
 

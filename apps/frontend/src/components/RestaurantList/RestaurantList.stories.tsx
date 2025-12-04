@@ -1,4 +1,3 @@
-// src/components/RestaurantList/RestaurantList.stories.tsx
 import type { Meta, StoryObj } from "@storybook/react";
 import { RestaurantList } from "./RestaurantList";
 import { mockRestaurants } from "../../mocks/restaurant.mock";

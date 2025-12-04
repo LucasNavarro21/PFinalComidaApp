@@ -1,4 +1,3 @@
-// src/hooks/useRestaurants.ts
 import { useEffect, useState } from "react";
 import type { Restaurant } from "../types/restaurant.types";
 import { RestaurantService } from "../services/api/RestaurantServiceApi";

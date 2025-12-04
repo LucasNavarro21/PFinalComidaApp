@@ -1,4 +1,3 @@
-// src/pages/CartPage.tsx
 import { useEffect, useState } from "react";
 import { Cart } from "../components/Cart/Cart";
 import { CartService } from "../services/api/CartServiceApi";
@@ -24,7 +23,7 @@ export default function CartPage() {
     fetchCart();
   }, [token]);
 
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: string) => {
     try {
       if (!token) throw new Error("No token found");
       await CartService.removeItem(id, token);

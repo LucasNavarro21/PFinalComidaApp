@@ -10,10 +10,11 @@ export type Restaurant = {
   phone: string;
   category: RestaurantCategory;
   rating: number;
+  ownerId?: string;
   products?: Product[];
-  description: string;
-  deliveryTime: string;
-  isOpen: boolean;
+  description?: string;
+  deliveryTime?: string;
+  isOpen?: boolean;
   orders?: Order[];
   image?:string,
   createdAt: string;

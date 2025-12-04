@@ -12,7 +12,10 @@ type Story = StoryObj<typeof RegisterForm>;
 
 export const Default: Story = {
   render: () => (
-    <MockAuthProvider register={async () => Promise.resolve()}>
+    <MockAuthProvider register={async (name, email, password, role) => ({
+      token: "mock-token",
+      user: { id: "1", name, email, role: role as "ADMIN" | "CUSTOMER" | "RESTAURANT_OWNER" },
+    })}>
       <RegisterForm />
     </MockAuthProvider>
   ),
@@ -21,7 +24,9 @@ export const Default: Story = {
 export const RegisterError: Story = {
   render: () => (
     <MockAuthProvider
-      register={async () => Promise.reject(new Error("Register failed"))}
+      register={async () => {
+        throw new Error("Register failed");
+      }}
     >
       <RegisterForm />
     </MockAuthProvider>

@@ -1,4 +1,3 @@
-// src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { AuthService } from "../services/api/AuthServiceApi";
@@ -7,8 +6,8 @@ import type { User } from "../types/user.types";
 export interface AuthContextProps {
   user: User | null;
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<{ token: string; user: User }>;
+  register: (name: string, email: string, password: string, role: string) => Promise<{ token: string; user: User }>;
   logout: () => void;
   isAuthenticated: boolean;
   setAuthData: (user: User, token: string) => void; 
@@ -40,22 +39,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string) => {
     try {
-      const { token, user } = await AuthService.login(email, password);
-      setUser(user);
-      setToken(token);
-      localStorage.setItem("token", token);
+      const result = await AuthService.login(email, password);
+      setUser(result.user);
+      setToken(result.token);
+      localStorage.setItem("token", result.token);
+      return result;
     } catch (error) {
       console.error("Login failed:", error);
       throw error;
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (name: string, email: string, password: string, role: string) => {
     try {
-      const { token, user } = await AuthService.register(name, email, password);
-      setUser(user);
-      setToken(token);
-      localStorage.setItem("token", token);
+
+      const result = await AuthService.register(name, email, password, role);
+      return result;
     } catch (error) {
       console.error("Registration failed:", error);
       throw error;

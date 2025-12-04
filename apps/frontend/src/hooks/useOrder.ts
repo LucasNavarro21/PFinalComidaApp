@@ -1,4 +1,3 @@
-// src/hooks/useOrder.ts
 import { useEffect, useState } from "react";
 import type { OrderItem } from "../types/order.types";
 import { OrderItemService } from "../services/api/OrderServiceApi";

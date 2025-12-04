@@ -1,4 +1,3 @@
-// src/services/api/OrderServiceApi.ts
 import type { OrderItem } from "../../types/order.types";
 import { fetchWithAuth } from "./fetchWithAuth";
 

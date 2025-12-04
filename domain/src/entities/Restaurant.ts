@@ -16,6 +16,7 @@ export interface Restaurant extends Entity {
   name: string;
   address: string;
   phone: string;
+  ownerId?: string;
   category: RestaurantCategory;
   rating: number;
   products?: Product[]; 
